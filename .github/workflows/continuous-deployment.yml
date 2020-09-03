@@ -24,8 +24,8 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
-      - name: List dir
-        run: ls
+      # - name: List dir
+      #   run: ls
       # - name: SSH Deploy App
       #   uses: easingthemes/ssh-deploy@v2.1.1
       #   env:
