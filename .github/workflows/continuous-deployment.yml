@@ -1,0 +1,61 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: SSH create client dir
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ${{ secrets.DEV_REMOTE_TARGET }}
+            mkdir client
+          host: ${{ secrets.DEV_REMOTE_HOST }}
+          user: ${{ secrets.DEV_REMOTE_USER }}
+          key: ${{ secrets.DEV_SERVER_SSH_KEY }}
+      - name: Install npm dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: SSH Deploy React
+        uses: easingthemes/ssh-deploy@v2.1.1
+        env:
+            SSH_PRIVATE_KEY: ${{ secrets.DEV_SERVER_SSH_KEY }}
+            ARGS: "-rltgoDzvO --delete"
+            SOURCE: "dist/"
+            REMOTE_HOST: ${{ secrets.DEV_REMOTE_HOST }}
+            REMOTE_USER: ${{ secrets.DEV_REMOTE_USER }}
+            TARGET: ${{ secrets.DEV_REMOTE_TARGET }}/client
+  # backend:
+  #   needs: build
+  #   name: Backend
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     # - name: Display files
+  #     #   run: ls
+  #     - name: SSH Deploy Backend
+  #       uses: easingthemes/ssh-deploy@v2.1.1
+  #       env:
+  #           SSH_PRIVATE_KEY: ${{ secrets.DEV_SERVER_SSH_KEY }}
+  #           ARGS: "-rltgoDzvO --delete"
+  #           SOURCE: "backend/"
+  #           REMOTE_HOST: ${{ secrets.DEV_REMOTE_HOST }}
+  #           REMOTE_USER: ${{ secrets.DEV_REMOTE_USER }}
+  #           TARGET: ${{ secrets.DEV_REMOTE_TARGET }}/backend
+  #     - name: SSH npm install & nodemon app.js
+  #       uses: fifsky/ssh-action@master
+  #       with:
+  #         command: |
+  #           cd ${{ secrets.DEV_REMOTE_TARGET }}/backend
+  #           pm2 kill
+  #           npm install && pm2 start app.js --name "nini-backend"
+  #         host: ${{ secrets.DEV_REMOTE_HOST }}
+  #         user: ${{ secrets.DEV_REMOTE_USER }}
+  #         key: ${{ secrets.DEV_SERVER_SSH_KEY }}
