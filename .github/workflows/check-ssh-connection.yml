@@ -1,18 +1,18 @@
-# name: Check SSH
+name: Check SSH
 
-# on:
-#   workflow_dispatch:
-# jobs:
-#   build:
-#     name: Check SSH
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v1
-#       - name: SSH Create client dir
-#         uses: fifsky/ssh-action@master
-#         with:
-#           command: |
-#             cd ${{ secrets.DEV_REMOTE_TARGET }}
-#           host: ${{ secrets.DEV_REMOTE_HOST }}
-#           user: ${{ secrets.DEV_REMOTE_USER }}
-#           key: ${{ secrets.DEV_SERVER_SSH_KEY }}
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    name: Check SSH
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: SSH Create client dir
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ${{ secrets.DEV_REMOTE_TARGET }}
+          host: ${{ secrets.DEV_REMOTE_HOST }}
+          user: ${{ secrets.DEV_REMOTE_USER }}
+          key: ${{ secrets.DEV_SERVER_SSH_KEY }}
