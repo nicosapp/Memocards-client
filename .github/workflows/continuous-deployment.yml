@@ -18,7 +18,7 @@ jobs:
         with:
           command: |
             cd ${{ secrets.DEV_REMOTE_TARGET }}
-            mkdir -p ./frontend
+            mkdir -p ./client
           host: ${{ secrets.DEV_REMOTE_HOST }}
           user: ${{ secrets.DEV_REMOTE_USER }}
           key: ${{ secrets.DEV_SERVER_SSH_KEY }}
@@ -36,7 +36,7 @@ jobs:
             SOURCE: "dist/"
             REMOTE_HOST: ${{ secrets.DEV_REMOTE_HOST }}
             REMOTE_USER: ${{ secrets.DEV_REMOTE_USER }}
-            TARGET: ${{ secrets.DEV_REMOTE_TARGET }}
+            TARGET: ${{ secrets.DEV_REMOTE_TARGET }}/client
   # backend:
   #   needs: build
   #   name: Backend
