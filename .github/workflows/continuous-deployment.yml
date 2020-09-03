@@ -25,15 +25,22 @@ jobs:
         run: npm run build
       - name: List dir
         run: ls
-      - name: SSH Deploy App
-        uses: easingthemes/ssh-deploy@v2.1.1
-        env:
-            SSH_PRIVATE_KEY: ${{ secrets.DEV_SERVER_SSH_KEY }}
-            ARGS: "-rltgoDzvO --delete"
-            SOURCE: "dist/"
-            REMOTE_HOST: ${{ secrets.DEV_REMOTE_HOST }}
-            REMOTE_USER: ${{ secrets.DEV_REMOTE_USER }}
-            TARGET: ${{ secrets.DEV_REMOTE_TARGET }}
+      # - name: SSH Deploy App
+      #   uses: easingthemes/ssh-deploy@v2.1.1
+      #   env:
+      #       SSH_PRIVATE_KEY: ${{ secrets.DEV_SERVER_SSH_KEY }}
+      #       ARGS: "-rltgoDzvO --delete"
+      #       SOURCE: "dist/"
+      #       REMOTE_HOST: ${{ secrets.DEV_REMOTE_HOST }}
+      #       REMOTE_USER: ${{ secrets.DEV_REMOTE_USER }}
+      #       TARGET: ${{ secrets.DEV_REMOTE_TARGET }}
+  list:
+    needs: build
+    name: List Dir
+    runs-on: ubuntu-latast
+    steps:
+      - name: list dir
+      - run: ls
   # backend:
   #   needs: build
   #   name: Backend
