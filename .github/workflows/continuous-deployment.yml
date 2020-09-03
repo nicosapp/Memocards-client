@@ -10,19 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: SSH create client dir
-        uses: fifsky/ssh-action@master
-        with:
-          command: |
-            cd ${{ secrets.DEV_REMOTE_TARGET }}
-          host: ${{ secrets.DEV_REMOTE_HOST }}
-          user: ${{ secrets.DEV_REMOTE_USER }}
-          key: ${{ secrets.DEV_SERVER_SSH_KEY }}
+      # - name: SSH Create client dir
+      #   uses: fifsky/ssh-action@master
+      #   with:
+      #     command: |
+      #       cd ${{ secrets.DEV_REMOTE_TARGET }}
+      #     host: ${{ secrets.DEV_REMOTE_HOST }}
+      #     user: ${{ secrets.DEV_REMOTE_USER }}
+      #     key: ${{ secrets.DEV_SERVER_SSH_KEY }}
       - name: Install npm dependencies
         run: npm install
       - name: Build
         run: npm run build
-      - name: SSH Deploy React
+      - name: SSH Deploy App
         uses: easingthemes/ssh-deploy@v2.1.1
         env:
             SSH_PRIVATE_KEY: ${{ secrets.DEV_SERVER_SSH_KEY }}
@@ -30,7 +30,7 @@ jobs:
             SOURCE: "dist/"
             REMOTE_HOST: ${{ secrets.DEV_REMOTE_HOST }}
             REMOTE_USER: ${{ secrets.DEV_REMOTE_USER }}
-            TARGET: ${{ secrets.DEV_REMOTE_TARGET }}/client
+            TARGET: ${{ secrets.DEV_REMOTE_TARGET }}
   # backend:
   #   needs: build
   #   name: Backend
