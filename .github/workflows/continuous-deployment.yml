@@ -40,7 +40,7 @@ jobs:
   list:
     needs: build
     name: List Dir
-    runs-on: ubuntu-latast
+    runs-on: ubuntu-latest
     steps:
       - name: list dir
         run: ls
