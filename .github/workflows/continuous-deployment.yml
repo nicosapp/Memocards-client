@@ -31,21 +31,21 @@ jobs:
             REMOTE_HOST: ${{ secrets.DEV_REMOTE_HOST }}
             REMOTE_USER: ${{ secrets.DEV_REMOTE_USER }}
             TARGET: ${{ secrets.DEV_REMOTE_TARGET_HOME }}client
-      # - name: SSH Install Dep
-      #   uses: fifsky/ssh-action@master
-      #   with:
-      #     command: |
-      #       cd ${{ secrets.DEV_REMOTE_TARGET_HOME }}/client
-      #       cp ../.env.client ./.env
-      #       npm install
-      #       npm run generate
-      #       mkdir -p ${{ secrets.DEV_REMOTE_TARGET_WWW }}client/
-      #       cp ./dist/ ${{ secrets.DEV_REMOTE_TARGET_WWW }}client/
-      #     host: ${{ secrets.DEV_REMOTE_HOST }}
-      #     user: ${{ secrets.DEV_REMOTE_USER }}
-      #     key: ${{ secrets.DEV_SERVER_SSH_KEY }}    
+      - name: SSH Install Dep
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ${{ secrets.DEV_REMOTE_TARGET_HOME }}/client
+            cp ../.env.client ./.env
+            npm install
+            npm run generate
+            mkdir -p ${{ secrets.DEV_REMOTE_TARGET_WWW }}client/
+            cp ./dist/ ${{ secrets.DEV_REMOTE_TARGET_WWW }}client/
+          host: ${{ secrets.DEV_REMOTE_HOST }}
+          user: ${{ secrets.DEV_REMOTE_USER }}
+          key: ${{ secrets.DEV_SERVER_SSH_KEY }}    
 
-      
+
       # - name: Install npm dependencies
       #   run: npm install
       # - name: Build
