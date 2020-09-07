@@ -86,6 +86,10 @@ export default {
             url: 'auth/me',
             method: 'get',
             propertyName: 'data'
+          },
+          logout: {
+            url: 'auth/signout',
+            method: 'post'
           }
         }
       }
