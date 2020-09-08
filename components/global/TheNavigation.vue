@@ -25,15 +25,15 @@
         <ul class="lg:h-24 lg:flex items-center w-full lg:w-auto">
           <li>
             <nuxt-link
-              to="/"
-              class="text-lg text-gray-700 py-8 px-4"
+              :to="{name: 'browse'}"
+              class="text-lg text-gray-700 py-8 px-4 font-medium"
             >
               Browse
             </nuxt-link>
           </li>
           <li>
             <nuxt-link
-              :to="{name:'home'}"
+              :to="{name:'search'}"
               class="text-lg text-gray-700 py-8 px-4"
             >
               Search
@@ -44,7 +44,7 @@
           <template v-if="$auth.loggedIn">
             <li>
               <nuxt-link
-                :to="{name:'home'}"
+                :to="{name:'dashboard'}"
                 class="text-lg text-gray-700 py-8 px-4"
               >
                 Dashboard
@@ -107,3 +107,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+a{
+  @apply font-medium
+}
+</style>
