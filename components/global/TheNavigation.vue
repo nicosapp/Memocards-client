@@ -1,11 +1,13 @@
 <template>
-  <div class="bg-white flex items-center">
-    <div class="container flex flex-wrap items-center lg:flex-no-wrap">
+  <div class="bg-gray-200 flex flex-wrap lg:flex-no-wrap items-center border-gray-400 border-b-2">
+    <div class="container flex items-center ">
       <nuxt-link
-        :to="{ name : 'home'}"
-        class="mr-10 flex-shrink-0"
+        :to="{ name : 'index'}"
+        class="mr-10 flex-shrink-0 logo"
       >
-        <img src="~/assets/logo.png" alt="Logo" class="h-8">
+        <!-- <img src="~/assets/logo.png" alt="Logo" class="h-8">
+         -->
+        <img src="~/assets/logo-default.png" alt="Logo" class="h-20">
       </nuxt-link>
       <a
         href="#"
@@ -25,27 +27,27 @@
         <ul class="lg:h-24 lg:flex items-center w-full lg:w-auto">
           <li>
             <nuxt-link
-              :to="{name: 'browse'}"
-              class="text-lg text-gray-700 py-8 px-4 font-medium"
-            >
-              Browse
-            </nuxt-link>
-          </li>
-          <li>
-            <nuxt-link
               :to="{name:'search'}"
-              class="text-lg text-gray-700 py-8 px-4"
             >
+              <IconSearch
+                class="stroke-current inline-block mr-1 h-5 w-5 text-gray-600"
+                style="stroke-width: 3;"
+              />
               Search
             </nuxt-link>
           </li>
         </ul>
         <ul class="h-24 flex items-center ml-auto text-right">
+          <li>
+            <ThemeLanguagePicker
+              class="text-left"
+            />
+          </li>
           <template v-if="$auth.loggedIn">
             <li>
               <nuxt-link
                 :to="{name:'dashboard'}"
-                class="text-lg text-gray-700 py-8 px-4"
+                class=""
               >
                 Dashboard
               </nuxt-link>
@@ -53,15 +55,19 @@
             <li>
               <nuxt-link
                 :to="{name:'account'}"
-                class="text-lg text-gray-700 py-8 px-4"
+                class="flex justify-between items-center"
               >
-                {{ $auth.user.name }}
+                <div
+                  :style="`background-image:url(${avatarUrl})`"
+                  class="h-10 w-10 mr-4 rounded-full bg-cover bg-center"
+                />
+                {{ $auth.user.username | capitalize }}
               </nuxt-link>
             </li>
             <li>
               <a
                 href="#"
-                class="text-lg text-gray-700 py-8 px-4"
+                class=""
                 @click.prevent="signOut"
               >
                 Sign out
@@ -72,15 +78,15 @@
             <li>
               <nuxt-link
                 :to="{name:'auth-signin'}"
-                class="text-lg text-gray-700 py-8 px-4"
+                class=""
               >
                 Sign in
               </nuxt-link>
             </li>
             <li>
               <nuxt-link
-                :to="{name:'auth-create'}"
-                class="text-lg text-gray-700 py-8 px-4"
+                :to="{name:'auth-signup'}"
+                class=""
               >
                 Create an account
               </nuxt-link>
@@ -93,13 +99,20 @@
 </template>
 
 <script>
+import { get as _get } from 'lodash'
+
 export default {
   data () {
     return {
       mobileNavOpen: false
     }
   },
-
+  computed: {
+    avatarUrl () {
+      return _get(this.$auth.user, 'avatar.thumbnail_url', null)
+        ? this.$auth.user.avatar.thumbnail_url : 'http://www.gravatar.com/avatar/?d=mp'
+    }
+  },
   methods: {
     async signOut () {
       await this.$auth.logout()
@@ -109,7 +122,10 @@ export default {
 </script>
 
 <style scoped>
-a{
-  @apply font-medium
+a:not(.logo){
+  @apply  font-bold py-3 px-4 rounded-lg text-lg text-gray-700 py-3 px-5
+}
+a:not(.logo):hover{
+  @apply bg-gray-300
 }
 </style>

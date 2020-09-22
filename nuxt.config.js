@@ -36,11 +36,17 @@ export default {
   css: [
     '~/assets/styles/app.scss'
   ],
+  // purgeCSS: {
+  //   whitelist: ['dark-mode']
+  // },
   /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    '~/plugins/filters.js',
+    '~/plugins/vue-notification',
+    '~/plugins/axios'
   ],
   /*
   ** Auto import components
@@ -60,7 +66,44 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    '@nuxtjs/color-mode',
+    '@nuxtjs/toast',
+    ['nuxt-i18n', {
+      // vueI18nLoader: true,
+      defaultLocale: 'en',
+      strategy: 'no_prefix',
+      // parsePages: false,
+      locales: [
+        {
+          name: 'English',
+          code: 'en',
+          iso: 'en-US',
+          file: 'en-US.js'
+        },
+        {
+          name: 'Français',
+          code: 'fr',
+          iso: 'fr-FR',
+          file: 'fr-FR.js'
+        },
+        {
+          name: 'Deutsch',
+          code: 'de',
+          iso: 'de-DE',
+          file: 'de-DE.js'
+        },
+        {
+          name: 'Español',
+          code: 'es',
+          iso: 'es-ES',
+          file: 'es-ES.js'
+        }
+
+      ],
+      lazy: true,
+      langDir: 'locales/'
+    }]
   ],
   /*
   ** Axios module configuration
@@ -72,7 +115,10 @@ export default {
 
   auth: {
     redirect: {
-      login: '/auth/signin'
+      login: '/auth/signin',
+      logout: '/auth/signin',
+      home: '/dashboard',
+      callback: false
     },
     strategies: {
       local: {
@@ -94,6 +140,10 @@ export default {
         }
       }
     }
+  },
+
+  toast: {
+    position: 'top-center'
   },
   /*
   ** Build configuration

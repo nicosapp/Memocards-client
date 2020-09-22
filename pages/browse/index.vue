@@ -34,7 +34,7 @@ export default {
     //   posts: posts.data
     // }
   },
-
+  middleware: ['verified'],
   data () {
     return {
       posts: []

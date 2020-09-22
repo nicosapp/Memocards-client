@@ -7,7 +7,6 @@
       <form
         action="#"
         class="bg-white p-8 rounded w-full mb-6 md:w-6/12 lg:w-4/12"
-        @click.prevent="submit"
       >
         <div class="mb-6">
           <label
@@ -61,10 +60,23 @@
           >
             {{ validation.password[0] }}
           </div>
-        </div>
 
+          <div class="text-sm text-gray-600 mb-6 flex justify-end">
+            <nuxt-link
+              :to="{
+                name:'password-reset'
+              }"
+            >
+              Forgot your password?
+            </nuxt-link>
+          </div>
+        </div>
         <div>
-          <button type="submit" class="bg-blue-500 text-white p-4 rounded text-center font-medium block w-full">
+          <button
+            type="submit"
+            class="bg-blue-500 text-white p-4 rounded text-center font-medium block w-full"
+            @click.prevent="submit"
+          >
             Submit
           </button>
         </div>
@@ -72,7 +84,7 @@
       <div class="text-center text-gray-600">
         No account?
         <nuxt-link
-          :to="{name: 'index'}"
+          :to="{name: 'auth-signup'}"
         >
           Create one here
         </nuxt-link>

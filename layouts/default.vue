@@ -1,16 +1,15 @@
 <template>
-  <div>
+  <div class="">
     <TheNavigation />
+    <TheAlert />
+    <NotificationTopCenter />
     <Nuxt />
+    <TheFooter />
   </div>
 </template>
 
 <script>
-import TheNavigation from '@/components/global/TheNavigation'
-
 export default {
-  components: {
-    TheNavigation
-  }
+
 }
 </script>

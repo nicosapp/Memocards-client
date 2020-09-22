@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <PostCard
-      :post="post"
-    >
+  <PostCard
+    :post="post"
+    :loading="loading"
+  >
+    <template v-if="!loading">
       <ul class="flex items-end text-gray-600 font-medium">
         <li class="mr-6">
           <nuxt-link
@@ -20,8 +21,22 @@
           <a href="#" @click.prevent="deletePost">Delete</a>
         </li>
       </ul>
-    </PostCard>
-  </div>
+    </template>
+    <template v-else>
+      <ul class="flex items-end font-medium">
+        <li class="mr-6">
+          <SkeletonBox class="rounded-full w-16">
+            Edit
+          </SkeletonBox>
+        </li>
+        <li>
+          <SkeletonBox class="rounded-full w-16">
+            Delete
+          </SkeletonBox>
+        </li>
+      </ul>
+    </template>
+  </PostCard>
 </template>
 
 <script>
@@ -35,6 +50,11 @@ export default {
     post: {
       required: true,
       type: Object
+    },
+    loading: {
+      required: false,
+      type: Boolean,
+      default: false
     }
   },
 
@@ -44,7 +64,7 @@ export default {
         return
       }
 
-      await this.$axios.$delete(`posts/${this.post.uuid}`)
+      await this.$axios.$delete(`me/posts/${this.post.uuid}`)
       this.$emit('deleted', this.post)
     }
   }
