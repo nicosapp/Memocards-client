@@ -39,8 +39,7 @@ export default {
     return {
       title: 'Home'
     }
-  },
-  middleware: ['auth']
+  }
 }
 </script>
 
