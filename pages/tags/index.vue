@@ -8,8 +8,8 @@
         Edit your tags
       </div>
     </PageTitle>
-    <div class="mx-4 flex">
-      <div class="w-5/12">
+    <div class="flex lg:flex-no-wrap flex-wrap">
+      <div class="mx-4 w-full lg:w-5/12 pb-10 lg:pb-0">
         <NizTab
           ref="tabs"
           :tabs="['create','update']"
@@ -25,12 +25,6 @@
                 label="Tag name"
                 placeholder="Name"
                 name="name"
-              />
-              <NizInputText
-                v-model="create.slug"
-                label="Tag slug"
-                placeholder="Slug"
-                name="sllug"
               />
               <div class="flex justify-end mt-2">
                 <NizButtonSubmit
@@ -52,12 +46,6 @@
                 placeholder="Name"
                 name="name"
               />
-              <NizInputText
-                v-model="edit.slug"
-                label="Tag slug"
-                placeholder="Slug"
-                name="sllug"
-              />
               <div class="flex justify-end mt-2">
                 <NizButtonSubmit
                   value="Update"
@@ -68,7 +56,7 @@
           </template>
         </NizTab>
       </div>
-      <div class="w-7/12">
+      <div class="w-full lg:w-7/12 lg:bg-transparent bg-white py-10 lg:py-0">
         <div class="mx-3 rounded-lg bg-white px-4 py-3">
           <div class="flex justify-start flex-wrap">
             <NizChip
@@ -103,13 +91,11 @@ export default {
     return {
       tags: [],
       create: {
-        name: '',
-        slug: ''
+        name: ''
       },
       edit: {
         id: null,
         name: '',
-        slug: '',
         user_id: null
       },
       loading: false
@@ -123,8 +109,9 @@ export default {
         this.tags.push(response.data.data)
         this.create = { name: '', slug: '' }
         this.loading = false
+        this.$notifySuccess({ title: 'Tag created!', text: 'Your tag is now created!' })
       } catch (e) {
-        console.log(e)
+        this.$notifyError({ title: 'Error', text: e.response.data.error })
       }
     },
 
@@ -132,8 +119,9 @@ export default {
       if (this.edit.id != null) {
         try {
           await this.$axios.$patch(`me/tags/${this.edit.id}`, this.edit)
+          this.$notifySuccess({ title: 'Tag updated!', text: 'Your tag is now updated!' })
         } catch (e) {
-          console.log(e)
+          this.$notifyError({ title: 'Error', text: e.response.data.error })
         }
       }
     },
@@ -147,8 +135,9 @@ export default {
       try {
         await this.$axios.$delete(`me/tags/${tag.id}`, tag)
         this.tags = this.tags.filter(t => t.id !== tag.id)
+        this.$notifySuccess({ title: 'Tag deleted!', text: 'Your tag is now deleted!' })
       } catch (e) {
-        console.log(e)
+        this.$notifyError({ title: 'Error', text: e.response.data.error })
       }
     },
 

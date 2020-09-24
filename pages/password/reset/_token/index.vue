@@ -9,94 +9,44 @@
         class="bg-white p-8 rounded w-full mb-6 md:w-6/12 lg:w-4/12"
         @submit.prevent="resetPassword"
       >
-        <div class="mb-6">
-          <label
-            for="email"
-            class="block text-gray-600 font-medium mb-2"
-            :class="{
-              'text-red-500':validation.email
-            }"
-          >Email</label>
+        <NizInputText
+          v-model="form.email"
+          label="Email"
+          :error="validation.email"
+          placeholder="Email"
+          name="email"
+          class="w-full"
+        >
+          <slot slot="before">
+            <IconAtSymbol class="stroke-2 text-gray-400 h-6 w-6 ml-2" />
+          </slot>
+        </NizInputText>
 
-          <input
-            id="email"
-            v-model="form.email"
-            type="text"
-            name="email"
-            class="border-2 border-gray-400 rounded block w-full p-3"
-            :class="{
-              'border-red-500':validation.email
-            }"
-          >
-          <div
-            v-if="validation.email"
-            class="text-red-500 mb-4 text-sm mt-1"
-          >
-            {{ validation.email[0] }}
-          </div>
-        </div>
-        <div class="mb-6">
-          <label
-            for="email"
-            class="block text-gray-600 font-medium mb-2"
-            :class="{
-              'text-red-500':validation.password
-            }"
-          >Password</label>
+        <NizInputText
+          v-model="form.password"
+          label="Password"
+          :error="validation.password"
+          placeholder="Password"
+          name="password"
+          :password="true"
+          class="w-full"
+        />
 
-          <input
-            id="password"
-            v-model="form.password"
-            type="password"
-            name="password"
-            class="border-2 border-gray-400 rounded block w-full p-3"
-            :class="{
-              'border-red-500':validation.password
-            }"
-          >
-
-          <div
-            v-if="validation.password"
-            class="text-red-500 mb-4 text-sm mt-1"
-          >
-            {{ validation.password[0] }}
-          </div>
-        </div>
-
-        <div class="mb-6">
-          <label
-            for="password_confirmation"
-            class="block text-gray-600 font-medium mb-2"
-            :class="{
-              'text-red-500':validation.password_confirmation
-            }"
-          >Password confirmation</label>
-
-          <input
-            id="password_confirmation"
-            v-model="form.password_confirmation"
-            type="password"
-            name="password_confirmation"
-            class="border-2 border-gray-400 rounded block w-full p-3"
-            :class="{
-              'border-red-500':validation.password_confirmation
-            }"
-          >
-
-          <div
-            v-if="validation.password_confirmation"
-            class="text-red-500 mb-4 text-sm mt-1"
-          >
-            {{ validation.password_confirmation[0] }}
-          </div>
-        </div>
+        <NizInputText
+          v-model="form.password_confirmation"
+          label="Password confirmation"
+          :error="validation.password_confirmation"
+          placeholder="Confirmation"
+          name="password"
+          :password="true"
+          class="w-full"
+        />
         <div>
-          <button
-            type="submit"
-            class="bg-blue-500 text-white p-4 rounded text-center font-medium block w-full"
-          >
-            Update
-          </button>
+          <NizButtonSubmit
+            value="Reset"
+            class="w-full"
+            :disabled="submitDisabled"
+          />
         </div>
       </form>
       <!-- {{ form }} -->
@@ -111,10 +61,16 @@ export default {
       form: {
         token: this.$route.params.token,
         email: this.$route.query.email,
-        password: null,
-        password_confirmation: null
+        password: '',
+        password_confirmation: ''
       },
       validation: {}
+    }
+  },
+  computed: {
+    submitDisabled () {
+      return this.form.email.length === 0 || this.form.password.length === 0 ||
+      this.form.password_confirmation.length === 0
     }
   },
   methods: {
@@ -139,6 +95,11 @@ export default {
           this.$notifyError({ text: 'There is an error in the form' })
         }
       }
+    }
+  },
+  head () {
+    return {
+      title: 'Reset'
     }
   }
 }

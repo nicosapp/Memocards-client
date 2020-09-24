@@ -3,10 +3,10 @@
     <div class="container flex items-center flex-wrap lg:flex-no-wrap ">
       <nuxt-link
         :to="{ name : 'index'}"
-        class="mr-10 flex-shrink-0 logo"
+        class="logo"
       >
         <div
-          class="block bg-cover bg-center bg-contain bg-no-repeat h-16 w-56"
+          class="block bg-cover bg-center bg-contain bg-no-repeat h-16 lg:w-56 w-48"
           :style="`background-image:url(${logoUrl})`"
         />
       </nuxt-link>
@@ -15,9 +15,9 @@
         class="lg:hidden ml-auto flex flex-col relative justify-center w-8 h-8"
         @click.prevent="mobileNavOpen =!mobileNavOpen"
       >
-        <span class="bg-blue-500 h-1 w-8 rounded mb-1" />
-        <span class="bg-blue-500 h-1 w-8 rounded mb-1" />
-        <span class="bg-blue-500 h-1 w-8 rounded mb-1" />
+        <span class="bg-gray-500 h-1 w-8 rounded mb-1" />
+        <span class="bg-gray-500 h-1 w-8 rounded mb-1" />
+        <span class="bg-gray-500 h-1 w-8 rounded mb-1" />
       </a>
       <div
         class="laptop-nav w-full lg:flex hidden"
@@ -136,6 +136,15 @@
                   {{ $auth.user.username | capitalize }}
                 </nuxt-link>
               </li>
+              <li>
+                <a
+                  href="#"
+                  class=""
+                  @click.prevent="signOut"
+                >
+                  Sign out
+                </a>
+              </li>
             </template>
             <template v-else>
               <li>
@@ -191,7 +200,7 @@ export default {
 <style scoped lang="scss">
 .laptop-nav{
   ul.menu > li a{
-    @apply  font-bold rounded-lg text-lg text-gray-700 py-4 px-3;
+    @apply  font-medium font-header rounded-lg text-lg text-gray-600 py-4 px-3;
   }
   ul.menu > li a:hover{
     @apply bg-gray-300;
@@ -200,9 +209,9 @@ export default {
 .mobile-nav{
     @apply py-2;
   ul li {
-    @apply text-center py-2;
+    @apply text-center font-header font-medium  py-2;
     a {
-      @apply  font-bold rounded-lg text-lg text-gray-700;
+      @apply text-lg text-gray-600;
     }
   }
 }

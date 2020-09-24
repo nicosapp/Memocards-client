@@ -26,12 +26,11 @@
           </slot>
         </NizInputText>
         <div>
-          <button
-            type="submit"
-            class="bg-blue-500 text-white p-4 rounded text-center font-medium block w-full"
-          >
-            Send Email
-          </button>
+          <NizButtonSubmit
+            class="w-full"
+            value="Send email"
+            :disabled="submitDisabled"
+          />
         </div>
       </form>
     </div>
@@ -42,9 +41,14 @@
 export default {
   data () {
     return {
-      email: null,
+      email: '',
       validation: {},
       sent: null
+    }
+  },
+  computed: {
+    submitDisabled () {
+      return this.email.length === 0
     }
   },
   methods: {

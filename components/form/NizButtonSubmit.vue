@@ -1,10 +1,10 @@
 <template>
   <button
     :type="type"
-    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 text-lg rounded text-center font-medium inline-block
+    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded text-center font-medium inline-block
         flex justify-center items-center"
-    :class="{'opacity-50':loading}"
-    :disabled="loading"
+    :class="{'opacity-50':loading || disabled}"
+    :disabled="disabled || loading"
   >
     <div :class="{'mr-4':loading}">
       {{ value }}
@@ -30,6 +30,11 @@ export default {
       default: 'Submit'
     },
     loading: {
+      required: false,
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       required: false,
       type: Boolean,
       default: false

@@ -4,18 +4,18 @@
       title="Dashboard"
       class="!mb-0"
     />
-    <div class="flex relative">
+    <div class="flex">
       <transition name="slide">
         <div
           v-show="panelOpen || showSideNav"
-          class="dashboard-nav w-8/12 xl:w-2/12 lg:w-3/12 absolute top-0 left-0 bottom-0"
+          class="dashboard-nav w-8/12 xl:w-2/12 lg:w-3/12 fixed lg:static top-0 left-0 bottom-0"
         >
           <div
-            class="absolute top-0 right-0 m-2 lg:hidden"
+            class="m-3 lg:hidden text-right"
             @click.prevent="panelOpen = !panelOpen"
           >
             <IconArrowNarrowLeft
-              class="text-gray-600 stroke-2 h-5 w-4"
+              class="text-gray-600 stroke-2 h-5 w-4 inline-block"
             />
           </div>
           <h2>Your dashboard</h2>
@@ -29,7 +29,7 @@
                 :to="{ name:'categories'}"
                 class="flex items-center"
               >
-                <IconBookmark class="mr-2 stroke-current" />Category
+                <IconBookmark class="mr-2 stroke-current" />Categories
               </nuxt-link>
             </li>
             <li>
@@ -37,7 +37,7 @@
                 :to="{ name:'tags'}"
                 class="flex items-center"
               >
-                <IconTag class="mr-2 stroke-current" />Tag
+                <IconTag class="mr-2 stroke-current" />Tags
               </nuxt-link>
             </li>
           </ul>
@@ -171,7 +171,7 @@ export default {
 
 <style scoped lang="scss">
 .dashboard-nav{
-  @apply pt-5 bg-gray-200 border-gray-300 border-r-2;
+  @apply bg-gray-200 border-gray-300 border-r-2;
   h2{
     @apply font-medium text-gray-700 text-lg px-4 py-3;
   }

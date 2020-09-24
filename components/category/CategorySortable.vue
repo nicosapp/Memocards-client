@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-2 border-gray-400 py-2 px-3 rounded-lg mb-1 shadow-xs bg-gray-200
+    class="border border-gray-400 py-2 px-3 rounded-lg mb-1 shadow-xs bg-gray-200
   hover:bg-gray-300"
   >
     <div

@@ -7,192 +7,87 @@
       <form
         action="#"
         class="bg-white p-8 rounded w-full mb-6 md:w-10/12 lg:w-8/12"
+        @submit.prevent="submit"
       >
         <div class="flex justify-between flex-wrap lg:flex-no-wrap">
           <!-- EMAIL -->
-          <div class="mb-6 w-full">
-            <label
-              for="email"
-              class="block text-gray-600 font-medium mb-2"
-              :class="{
-                'text-red-500':validation.email
-              }"
-            >Email</label>
-
-            <input
-              id="email"
-              v-model="form.email"
-              type="text"
-              name="email"
-              class="border-2 border-gray-400 rounded block w-full p-3"
-              :class="{
-                'border-red-500':validation.email
-              }"
-            >
-            <div
-              v-if="validation.email"
-              class="text-red-500 mb-4 text-sm mt-1"
-            >
-              {{ validation.email[0] }}
-            </div>
-          </div>
+          <NizInputText
+            v-model="form.email"
+            label="Email"
+            :error="validation.email"
+            placeholder="Email"
+            name="email"
+            class="w-full"
+          >
+            <slot slot="before">
+              <IconAtSymbol class="stroke-2 text-gray-400 h-6 w-6 ml-2" />
+            </slot>
+          </NizInputText>
 
           <!-- USERNAME -->
-          <div class="mb-6 w-full lg:ml-4">
-            <label
-              for="email"
-              class="block text-gray-600 font-medium mb-2"
-              :class="{
-                'text-red-500':validation.username
-              }"
-            >Username</label>
-
-            <input
-              id="email"
-              v-model="form.username"
-              type="text"
-              name="email"
-              class="border-2 border-gray-400 rounded block w-full p-3"
-              :class="{
-                'border-red-500':validation.username
-              }"
-            >
-            <div
-              v-if="validation.username"
-              class="text-red-500 mb-4 text-sm mt-1"
-            >
-              {{ validation.username[0] }}
-            </div>
-          </div>
-        </div>
-
-        <div class="flex justify-between flex-wrap lg:flex-no-wrap">
-          <!-- FIRSTNAME -->
-          <div class="mb-6 w-full">
-            <label
-              for="name"
-              class="block text-gray-600 font-medium mb-2"
-              :class="{
-                'text-red-500':validation.firstname
-              }"
-            >First name</label>
-
-            <input
-              id="name"
-              v-model="form.firstname"
-              type="text"
-              name="name"
-              class="border-2 border-gray-400 rounded block w-full p-3"
-              :class="{
-                'border-red-500':validation.firstname
-              }"
-            >
-            <div
-              v-if="validation.firstname"
-              class="text-red-500 mb-4 text-sm mt-1"
-            >
-              {{ validation.firstname[0] }}
-            </div>
-          </div>
-          <!-- NAME -->
-          <div class="mb-6 w-full lg:ml-4">
-            <label
-              for="name"
-              class="block text-gray-600 font-medium mb-2"
-              :class="{
-                'text-red-500':validation.name
-              }"
-            >Last name</label>
-
-            <input
-              id="name"
-              v-model="form.name"
-              type="text"
-              name="name"
-              class="border-2 border-gray-400 rounded block w-full p-3"
-              :class="{
-                'border-red-500':validation.name
-              }"
-            >
-            <div
-              v-if="validation.name"
-              class="text-red-500 mb-4 text-sm mt-1"
-            >
-              {{ validation.name[0] }}
-            </div>
-          </div>
-        </div>
-
-        <div class="flex justify-between flex-wrap lg:flex-no-wrap">
-          <!-- PASSWORD -->
-          <div class="mb-6 w-full">
-            <label
-              for="password"
-              class="block text-gray-600 font-medium mb-2"
-              :class="{
-                'text-red-500':validation.password
-              }"
-            >Password</label>
-
-            <input
-              id="password"
-              v-model="form.password"
-              type="password"
-              autocomplete="new-password"
-              name="password"
-              class="border-2 border-gray-400 rounded block w-full p-3"
-              :class="{
-                'border-red-500':validation.password
-              }"
-            >
-
-            <div
-              v-if="validation.password"
-              class="text-red-500 mb-4 text-sm mt-1"
-            >
-              {{ validation.password[0] }}
-            </div>
-          </div>
-
-          <!-- PASSWORD CONFIRMATION -->
-          <div class="mb-6  w-full lg:ml-4">
-            <label
-              for="password_confirmation"
-              class="block text-gray-600 font-medium mb-2"
-              :class="{
-                'text-red-500':validation.password_confirmation
-              }"
-            >Password confirmation</label>
-
-            <input
-              id="password_confirmation"
-              v-model="form.password_confirmation"
-              type="password"
-              autocomplete="new-password"
-              name="password_confirmation"
-              class="border-2 border-gray-400 rounded block w-full p-3"
-              :class="{
-                'border-red-500':validation.password_confirmation
-              }"
-            >
-
-            <div
-              v-if="validation.password_confirmation"
-              class="text-red-500 mb-4 text-sm mt-1"
-            >
-              {{ validation.password_confirmation[0] }}
-            </div>
-          </div>
-        </div>
-        {{ form }}
-        <div>
-          <button
-            type="submit"
-            class="bg-blue-500 text-white p-4 rounded text-center font-medium block w-full"
-            @click.prevent="submit"
+          <NizInputText
+            v-model="form.username"
+            label="Username"
+            :error="validation.username"
+            placeholder="Username"
+            name="username"
+            class="w-full md:ml-4"
           >
-            Sign Up
-          </button>
+            <slot slot="before">
+              <IconUserCircle class="stroke-2 text-gray-400 h-6 w-6 ml-2" />
+            </slot>
+          </NizInputText>
+        </div>
+
+        <!-- <div class="flex justify-between flex-wrap lg:flex-no-wrap">
+          <NizInputText
+            v-model="form.firstname"
+            label="First name"
+            :error="validation.firstname"
+            placeholder="First name"
+            name="firstname"
+            class="w-full"
+          />
+
+          <NizInputText
+            v-model="form.name"
+            label="Last name"
+            :error="validation.name"
+            placeholder="Last name"
+            name="name"
+            class="w-full md:ml-4"
+          />
+        </div> -->
+
+        <div class="flex justify-between flex-wrap lg:flex-no-wrap">
+          <NizInputText
+            v-model="form.password"
+            label="Password"
+            :error="validation.password"
+            placeholder="Password"
+            name="password"
+            :password="true"
+            class="w-full"
+          />
+
+          <NizInputText
+            v-model="form.password_confirmation"
+            label="Password confirmation"
+            :error="validation.password_confirmation"
+            placeholder="Confirmation"
+            name="password"
+            :password="true"
+            class="w-full md:ml-4"
+          />
+        </div>
+
+        <div>
+          <NizButtonSubmit
+            value="Sign up"
+            class="w-full"
+            :loading="loading"
+            :disabled="submitDisabled"
+          />
         </div>
       </form>
       <div class="text-center text-gray-600">
@@ -219,28 +114,37 @@ export default {
         password: '',
         password_confirmation: ''
       },
-      validation: {
-
-      }
+      loading: false,
+      validation: {}
+    }
+  },
+  computed: {
+    submitDisabled () {
+      return this.form.email.length === 0 || this.form.username.length === 0 ||
+      this.form.password.length === 0 || this.form.password_confirmation.length === 0
     }
   },
   methods: {
     async submit () {
       try {
+        this.loading = true
+        this.form.name = this.form.username
         await this.$axios.$post('auth/signup', this.form)
 
-        this.$router.push({
-          name: 'auth-email'
-        })
         // await this.$auth.loginWith('local', {
         //   data: {
         //     email: this.form.email,
         //     password: this.form.password
         //   }
         // })
+        this.$router.push({
+          name: 'auth-email'
+        })
+        this.$notifySuccess({ title: 'Sign up!', text: 'Your successfully sign up!' })
       } catch (e) {
         if (e.response.status === 422) {
           this.validation = e.response.data.errors
+          this.loading = false
         }
       }
     }

@@ -1,6 +1,6 @@
 <template>
-  <div class="container mt-16">
-    <div class="flex flex-col items-center">
+  <div>
+    <div class="flex flex-col items-center bg-white pt-10">
       <h1 class="text-3xl text-gray-700 font-medium mb-10">
         Hello. {{ $auth.user.firstname }} {{ $auth.user.name }}
       </h1>
@@ -12,166 +12,93 @@
           @selected="handleAvatarSelected"
         />
       </div>
+    </div>
+    <div class="mt-8">
       <form
         action="#"
-        class="w-full mb-6 md:w-8/12 lg:w-7/12"
+        class="mb-6 mx-5 lg:mx-auto lg:w-7/12"
+        @submit.prevent="submit"
       >
-        <div class="flex justify-between">
-          <!-- EMAIL -->
-          <div class="mb-6 w-full">
-            <label
-              for="email"
-              class="block text-gray-600 font-medium mb-2"
-              :class="{
-                'text-red-500':validation.email
-              }"
-            >Email</label>
+        <div class="md:flex justify-between">
+          <NizInputText
+            v-model="form.email"
+            label="Email"
+            :error="validation.email"
+            placeholder="Email"
+            name="email"
+            class="w-full"
+          >
+            <slot slot="before">
+              <IconAtSymbol class="stroke-2 text-gray-400 h-6 w-6 ml-2" />
+            </slot>
+          </NizInputText>
 
-            <input
-              id="email"
-              v-model="form.email"
-              type="text"
-              name="email"
-              class="border-2 border-gray-400 rounded block w-full p-3"
-              :class="{
-                'border-red-500':validation.email
-              }"
-            >
-            <div
-              v-if="validation.email"
-              class="text-red-500 mb-4 text-sm mt-1"
-            >
-              {{ validation.email[0] }}
-            </div>
-          </div>
-
-          <!-- USERNAME -->
-          <div class="mb-6 w-full lg:ml-4">
-            <label
-              for="email"
-              class="block text-gray-600 font-medium mb-2"
-              :class="{
-                'text-red-500':validation.username
-              }"
-            >Username</label>
-
-            <input
-              id="email"
-              v-model="form.username"
-              type="text"
-              name="email"
-              class="border-2 border-gray-400 rounded block w-full p-3"
-              :class="{
-                'border-red-500':validation.username
-              }"
-            >
-            <div
-              v-if="validation.username"
-              class="text-red-500 mb-4 text-sm mt-1"
-            >
-              {{ validation.username[0] }}
-            </div>
-          </div>
+          <NizInputText
+            v-model="form.username"
+            label="Username"
+            :error="validation.username"
+            placeholder="Username"
+            name="username"
+            class="w-full md:ml-4"
+          >
+            <slot slot="before">
+              <IconUserCircle class="stroke-2 text-gray-400 h-6 w-6 ml-2" />
+            </slot>
+          </NizInputText>
         </div>
 
-        <div class="flex justify-between">
-          <!-- FIRSTNAME -->
-          <div class="mb-6 w-full">
-            <label
-              for="name"
-              class="block text-gray-600 font-medium mb-2"
-              :class="{
-                'text-red-500':validation.firstname
-              }"
-            >First name</label>
+        <div class="md:flex justify-between">
+          <NizInputText
+            v-model="form.firstname"
+            label="First name"
+            :error="validation.firstname"
+            placeholder="First name"
+            name="firstname"
+            class="w-full"
+          />
 
-            <input
-              id="name"
-              v-model="form.firstname"
-              type="text"
-              name="name"
-              class="border-2 border-gray-400 rounded block w-full p-3"
-              :class="{
-                'border-red-500':validation.firstname
-              }"
-            >
-            <div
-              v-if="validation.firstname"
-              class="text-red-500 mb-4 text-sm mt-1"
-            >
-              {{ validation.firstname[0] }}
-            </div>
-          </div>
-          <!-- NAME -->
-          <div class="mb-6 w-full lg:ml-4">
-            <label
-              for="name"
-              class="block text-gray-600 font-medium mb-2"
-              :class="{
-                'text-red-500':validation.name
-              }"
-            >Last name</label>
-
-            <input
-              id="name"
-              v-model="form.name"
-              type="text"
-              name="name"
-              class="border-2 border-gray-400 rounded block w-full p-3"
-              :class="{
-                'border-red-500':validation.name
-              }"
-            >
-            <div
-              v-if="validation.name"
-              class="text-red-500 mb-4 text-sm mt-1"
-            >
-              {{ validation.name[0] }}
-            </div>
-          </div>
+          <NizInputText
+            v-model="form.name"
+            label="Last name"
+            :error="validation.name"
+            placeholder="Last name"
+            name="name"
+            class="w-full md:ml-4"
+          />
         </div>
 
-        <!-- PASSWORD -->
-        <div class="mb-6">
-          <label
-            for="password"
-            class="block text-gray-600 font-medium mb-2"
-            :class="{
-              'text-red-500':validation.password
-            }"
-          >Password</label>
-
-          <input
-            id="password"
+        <div class="md:flex justify-between">
+          <!-- PASSWORD -->
+          <NizInputText
             v-model="form.password"
-            type="password"
-            autocomplete="new-password"
+            label="Password"
+            :error="validation.password"
+            placeholder="Password"
             name="password"
-            class="border-2 border-gray-400 rounded block w-full p-3"
-            :class="{
-              'border-red-500':validation.password
-            }"
+            :password="true"
+            class="w-full"
           >
+            <div class="text-sm text-gray-500">
+              Leave blank to keep the same
+            </div>
+          </NizInputText>
 
-          <div
-            v-if="validation.password"
-            class="text-red-500 mb-4 text-sm mt-1"
-          >
-            {{ validation.password[0] }}
-          </div>
-          <div class="text-sm text-gray-500">
-            Leave blank to keep the same
-          </div>
+          <!-- <NizInputText
+            v-model="form.password_confirmation"
+            label="Password confirmation"
+            :error="validation.password_confirmation"
+            placeholder="Confirmation"
+            name="password"
+            :password="true"
+            class="w-full lg:ml-4"
+          /> -->
         </div>
 
         <div>
-          <button
-            type="submit"
-            class="bg-blue-500 text-white p-4 rounded text-center font-medium block w-full"
-            @click.prevent="submit"
-          >
-            Update
-          </button>
+          <NizButtonSubmit
+            value="Update"
+            class="w-full"
+          />
         </div>
       </form>
     </div>
@@ -188,7 +115,8 @@ export default {
         name: this.$auth.user.name,
         username: this.$auth.user.username,
         firstname: this.$auth.user.firstname,
-        password: ''
+        password: '',
+        password_confirmation: ''
       },
       validation: {},
       mediaTypes: {},

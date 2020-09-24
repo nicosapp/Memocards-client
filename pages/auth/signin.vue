@@ -7,60 +7,30 @@
       <form
         action="#"
         class="bg-white p-8 rounded w-full mb-6 md:w-6/12 lg:w-4/12"
+        @submit.prevent="submit"
       >
-        <div class="mb-6">
-          <label
-            for="email"
-            class="block text-gray-600 font-medium mb-2"
-            :class="{
-              'text-red-500':validation.email
-            }"
-          >Email</label>
+        <NizInputText
+          v-model="form.email"
+          label="Email"
+          :error="validation.email"
+          placeholder="Email"
+          name="email"
+          class="w-full"
+        >
+          <slot slot="before">
+            <IconAtSymbol class="stroke-2 text-gray-400 h-6 w-6 ml-2" />
+          </slot>
+        </NizInputText>
 
-          <input
-            id="email"
-            v-model="form.email"
-            type="text"
-            name="email"
-            class="border-2 border-gray-400 rounded block w-full p-3"
-            :class="{
-              'border-red-500':validation.email
-            }"
-          >
-          <div
-            v-if="validation.email"
-            class="text-red-500 mb-4 text-sm mt-1"
-          >
-            {{ validation.email[0] }}
-          </div>
-        </div>
-        <div class="mb-6">
-          <label
-            for="email"
-            class="block text-gray-600 font-medium mb-2"
-            :class="{
-              'text-red-500':validation.password
-            }"
-          >Password</label>
-
-          <input
-            id="password"
-            v-model="form.password"
-            type="password"
-            name="password"
-            class="border-2 border-gray-400 rounded block w-full p-3"
-            :class="{
-              'border-red-500':validation.password
-            }"
-          >
-
-          <div
-            v-if="validation.password"
-            class="text-red-500 mb-4 text-sm mt-1"
-          >
-            {{ validation.password[0] }}
-          </div>
-
+        <NizInputText
+          v-model="form.password"
+          label="Password"
+          :error="validation.password"
+          placeholder="Password"
+          name="password"
+          :password="true"
+          class="w-full"
+        >
           <div class="text-sm text-gray-600 mb-6 flex justify-end">
             <nuxt-link
               :to="{
@@ -70,15 +40,15 @@
               Forgot your password?
             </nuxt-link>
           </div>
-        </div>
+        </NizInputText>
+
         <div>
-          <button
-            type="submit"
-            class="bg-blue-500 text-white p-4 rounded text-center font-medium block w-full"
-            @click.prevent="submit"
-          >
-            Submit
-          </button>
+          <NizButtonSubmit
+            value="Signin"
+            class="w-full"
+            :loading="loading"
+            :disabled="submitDisabled"
+          />
         </div>
       </form>
       <div class="text-center text-gray-600">
@@ -101,14 +71,19 @@ export default {
         email: '',
         password: ''
       },
-      validation: {
-
-      }
+      validation: {},
+      loading: false
+    }
+  },
+  computed: {
+    submitDisabled () {
+      return this.form.email.length === 0 || this.form.password.length === 0
     }
   },
   methods: {
     async submit () {
       try {
+        this.loading = true
         await this.$auth.loginWith('local', {
           data: this.form
         })
@@ -117,6 +92,7 @@ export default {
           this.validation = e.response.data.errors
         }
       }
+      this.loading = false
     }
   },
   head () {
