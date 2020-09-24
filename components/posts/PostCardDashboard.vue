@@ -4,8 +4,8 @@
     :loading="loading"
   >
     <template v-if="!loading">
-      <ul class="flex items-end text-gray-600 font-medium">
-        <li class="mr-6">
+      <ul class="flex items-center text-center lg:justify-end text-gray-600 font-semibold mt-3 lg:mt-0 lg:text-base text-sm">
+        <li class="lg:mr-6 flex-grow lg:flex-grow-0">
           <nuxt-link
             :to="{
               name:'posts-id-edit',
@@ -17,7 +17,7 @@
             Edit
           </nuxt-link>
         </li>
-        <li>
+        <li class="flex-grow lg:flex-grow-0">
           <a href="#" @click.prevent="deletePost">Delete</a>
         </li>
       </ul>

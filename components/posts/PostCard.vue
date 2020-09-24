@@ -5,7 +5,7 @@
       class="flex flex-wrap lg:flex-no-wrap justify-between items-center
     w-full bg-white rounded-lg mb-2 p-8"
     >
-      <div class="lg:w-8/12">
+      <div class="lg:w-8/12 w-full">
         <h1>
           <nuxt-link
             class="text-gray-600 font-medium text-lg"
@@ -22,8 +22,8 @@
         <div class="text-gray-500 mb-2 text-sm">
           {{ post.post_excerpt | read-more }}
         </div>
-        <div class="flex items-center justify-start text-gray-500 text-sm w-full">
-          <div class="lg:w-4/12 flex items-center justify-start">
+        <div class="lg:flex items-center justify-start text-gray-500 text-sm w-full">
+          <div class="mb-2 lg:mb-0 lg:w-4/12 flex items-center justify-start text-xs">
             <IconBookmark class="h-5 w-5 stroke-current  mr-2" />
             <template v-if="post.categories.length">
               <div
@@ -38,13 +38,13 @@
               No categories
             </template>
           </div>
-          <div class="lg:ml-6 flex items-center justify-start">
+          <div class="lg:ml-6 flex items-center justify-start text-xs">
             <IconTag class="h-5 w-5 stroke-current mr-2" />
             <template v-if="post.tags.length">
               <NizChip
                 v-for="tag in post.tags"
                 :key="tag.id"
-                class="opacity-75 transform scale-75 -m-2"
+                class="opacity-75"
               >
                 {{ tag.name }}
               </NizChip>
@@ -55,7 +55,7 @@
           </div>
         </div>
       </div>
-      <div>
+      <div class="lg:w-4-12 w-full">
         <slot />
       </div>
     </div>

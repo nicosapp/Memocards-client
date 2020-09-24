@@ -57,6 +57,8 @@ export default {
     require('tinymce/plugins/preview')
     require('tinymce/plugins/code')
 
+    // const contentCss = require('~/assets/styles/tinyeditor.scss')
+    // console.log('css', contentCss)
     // require.context(
     //   'file-loader?name=[path][name].[ext]&context=node_modules/tinymce!tinymce/skins',
     //   true,

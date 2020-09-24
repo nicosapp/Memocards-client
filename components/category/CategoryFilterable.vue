@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="overflow-hidden">
     <template v-if="!loading">
       <div
-        class="hover:bg-gray-400 py-2 px-4 flex items-center"
+        class="lg:hover:bg-gray-400 py-3 px-4 flex items-center"
         :class="marginLeft"
       >
         <div class="flex-grow text-gray-700">
@@ -24,15 +24,17 @@
           <IconChevronDown class="h-4 w-4 stroke-3 stroke-current" :class="{'hidden':!open}" />
         </div>
       </div>
-      <CategoryFilterable
-        v-for="cat in category.children"
-        v-show="open"
-        :key="cat.id"
-        :category="cat"
-        :depth="depth + 1"
-        :click="click"
-        @click="click"
-      />
+      <transition name="slide">
+        <CategoryFilterable
+          v-for="cat in category.children"
+          v-show="open"
+          :key="cat.id"
+          :category="cat"
+          :depth="depth + 1"
+          :click="click"
+          @click="click"
+        />
+      </transition>
     </template>
     <div v-else class="flex items-center justify-start px-5 py-2">
       <SkeletonBox class="h-5 w-6 mr-4 rounded-sm" />
@@ -92,3 +94,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.slide-enter-active, .slide-leave-active {
+  transition: all 200ms linear;
+}
+.slide-enter, .slide-leave-to{
+  max-height:0px;
+}
+.slide-enter-to, .slide-leave{
+  max-height:4rem;
+}
+</style>

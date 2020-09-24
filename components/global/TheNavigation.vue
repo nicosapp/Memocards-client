@@ -20,13 +20,9 @@
         <span class="bg-blue-500 h-1 w-8 rounded mb-1" />
       </a>
       <div
-        class="w-full lg:flex lg:mt-0"
-        :class="{
-          'mt-4': mobileNavOpen,
-          'hidden lg:flex': !mobileNavOpen
-        }"
+        class="laptop-nav w-full lg:flex hidden"
       >
-        <ul class="lg:text-left text-center menu lg:h-24 lg:flex items-center w-full lg:w-auto">
+        <ul class="menu lg:h-24 lg:flex items-center w-full lg:w-auto">
           <li>
             <nuxt-link
               :to="{name:'browse'}"
@@ -39,17 +35,17 @@
               :to="{name:'search'}"
             >
               <IconSearch
-                class="stroke-current inline-block mr-1 h-5 w-5 text-gray-600 hidden lg:inline-block"
+                class="stroke-current inline-block mr-1 h-5 w-5 text-gray-600"
                 style="stroke-width: 3;"
               />
               Search
             </nuxt-link>
           </li>
         </ul>
-        <ul class="menu lg:h-24 lg:flex items-center ml-auto text-center lg:text-right  w-full lg:w-auto">
-          <li>
+        <ul class="menu lg:h-24 lg:flex items-center ml-auto text-right  w-full lg:w-auto">
+          <li class="">
             <ThemeLanguagePicker
-              class="text-left hidden lg:block"
+              class="text-left"
             />
           </li>
           <template v-if="$auth.loggedIn">
@@ -68,7 +64,7 @@
               >
                 <div
                   :style="`background-image:url(${avatarUrl})`"
-                  class="h-10 w-10 mr-4 rounded-full bg-cover bg-center hidden lg:block"
+                  class="h-10 w-10 mr-4 rounded-full bg-cover bg-center"
                 />
                 {{ $auth.user.username | capitalize }}
               </nuxt-link>
@@ -103,6 +99,65 @@
           </template>
         </ul>
       </div>
+      <transition name="slide">
+        <div
+          v-show="mobileNavOpen"
+          class="mobile-nav lg:hidden w-full mt-4 overflow-hidden"
+        >
+          <ul>
+            <li>
+              <nuxt-link
+                :to="{name:'browse'}"
+              >
+                Browse
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link
+                :to="{name:'search'}"
+              >
+                Search
+              </nuxt-link>
+            </li>
+            <template v-if="$auth.loggedIn">
+              <li>
+                <nuxt-link
+                  :to="{name:'dashboard'}"
+                  class=""
+                >
+                  Dashboard
+                </nuxt-link>
+              </li>
+              <li>
+                <nuxt-link
+                  :to="{name:'account'}"
+                  class="lg:flex justify-between items-center"
+                >
+                  {{ $auth.user.username | capitalize }}
+                </nuxt-link>
+              </li>
+            </template>
+            <template v-else>
+              <li>
+                <nuxt-link
+                  :to="{name:'auth-signin'}"
+                  class=""
+                >
+                  Sign in
+                </nuxt-link>
+              </li>
+              <li>
+                <nuxt-link
+                  :to="{name:'auth-signup'}"
+                  class=""
+                >
+                  Create an account
+                </nuxt-link>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -113,7 +168,7 @@ import { get as _get } from 'lodash'
 export default {
   data () {
     return {
-      mobileNavOpen: true
+      mobileNavOpen: false
     }
   },
   computed: {
@@ -122,7 +177,7 @@ export default {
         ? this.$auth.user.avatar.thumbnail_url : 'http://www.gravatar.com/avatar/?d=mp'
     },
     logoUrl () {
-      return 'images/logo-default.png'
+      return require('~/assets/logo-default.png')
     }
   },
   methods: {
@@ -133,11 +188,31 @@ export default {
 }
 </script>
 
-<style scoped>
-ul.menu > li a{
-  @apply  font-bold rounded-lg text-lg text-gray-700 py-4 px-3
+<style scoped lang="scss">
+.laptop-nav{
+  ul.menu > li a{
+    @apply  font-bold rounded-lg text-lg text-gray-700 py-4 px-3;
+  }
+  ul.menu > li a:hover{
+    @apply bg-gray-300;
+  }
 }
-a:not(.logo):hover{
-  @apply bg-gray-300
+.mobile-nav{
+    @apply py-2;
+  ul li {
+    @apply text-center py-2;
+    a {
+      @apply  font-bold rounded-lg text-lg text-gray-700;
+    }
+  }
+}
+.slide-enter-active, .slide-leave-active {
+  transition: all 0.2s linear;
+}
+.slide-enter, .slide-leave-to{
+  max-height:0px;
+}
+.slide-enter-to, .slide-leave{
+  max-height:20rem;
 }
 </style>

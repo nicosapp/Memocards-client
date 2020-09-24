@@ -1,62 +1,63 @@
 <template>
-  <div class="lg:w-11/12 mx-auto mt-16 flex">
-    <div class="w-9/12">
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-xl text-gray-600 font-medium">
-          Your pages (1)
-        </h1>
-        <div class="flex justify-center items-center font-medium">
-          <nuxt-link
-            :to="{ name:'categories'}"
-            class="block flex items-center rounded-lg bg-blue-500 text-white hover:bg-blue-600 niz-transition-default py-2 px-4"
-          >
-            <IconBookmark class="mr-2 stroke-current" />Category
-          </nuxt-link>
-
-          <nuxt-link
-            :to="{ name:'tags'}"
-            class="ml-4 block flex items-center rounded-lg py-2 px-4 bg-blue-500 text-white hover:bg-blue-600 niz-transition-default"
-          >
-            <IconTag class="mr-2 stroke-current" />Tag
-          </nuxt-link>
+  <div>
+    <PageTitle title="Browse" />
+    <div class="lg:w-11/12 mx-3 lg:mx-auto mt-16 flex">
+      <div class="lg:w-8/12 xl:w-9/12 w-full">
+        <div v-if="posts.length===0 && !loading" class="text-gray-500 font-medium">
+          No results found for this request!
         </div>
-        <a href="#" class="font-medium" @click.prevent="createPost">+ Create a page</a>
-      </div>
-      <div v-if="posts.length===0 && !loading" class="text-gray-500 font-medium">
-        No results found for this request!
-      </div>
-
-      <PostCardDashboard
-        v-for="post in posts"
-        :key="post.uuid"
-        :post="post"
-        @deleted="removePost"
-      />
-
-      <template v-if="loading">
         <PostCardDashboard
-          v-for="post in skeletons"
+          v-for="post in posts"
           :key="post.uuid"
           :post="post"
-          :loading="true"
+          @deleted="removePost"
         />
-      </template>
+
+        <template v-if="loading">
+          <PostCardDashboard
+            v-for="post in skeletons"
+            :key="post.uuid"
+            :post="post"
+            :loading="true"
+          />
+        </template>
+
+        <div
+          v-if="posts.length && !loading"
+          v-observe-visibility="handleScolledToBottomOfPosts"
+        />
+      </div>
+      <!-- Panel Right -->
+      <transition name="slide">
+        <div
+          v-show="panelOpen || showSideNav"
+          class="fixed top-0 left-0 bottom-0 w-full bg-gray-300 lg:relative lg:w-4/12 xl:w-3/12 lg:ml-3"
+        >
+          <div
+            class="m-4 lg:hidden"
+            @click.prevent="panelOpen = !panelOpen"
+          >
+            <IconArrowNarrowRight class="text-gray-600 stroke-2 h-5 w-5" />
+          </div>
+          <CategoryFilterWidget
+            ref="categoryFilter"
+            @filter="filter"
+          />
+          <TagFilterWidget
+            ref="tagFilter"
+            @filter="filter"
+          />
+        </div>
+      </transition>
 
       <div
-        v-if="posts.length && !loading"
-        v-observe-visibility="handleScolledToBottomOfPosts"
-      />
-    </div>
-    <!-- Panel Right -->
-    <div class="w-3/12 ml-3">
-      <CategoryFilterWidget
-        ref="categoryFilter"
-        @filter="filter"
-      />
-      <TagFilterWidget
-        ref="tagFilter"
-        @filter="filter"
-      />
+        class="lg:hidden fixed right-0 bg-gray-400 rounded-l-lg flex items-center shadow-lg justify-center h-10 w-8"
+        style="top:50%"
+        :class="{'hidden':panelOpen}"
+        @click.prevent="panelOpen = !panelOpen"
+      >
+        <IconDotsVertical class="text-gray-700 stroke-2 h-5 w-4" />
+      </div>
     </div>
   </div>
 </template>
@@ -65,6 +66,7 @@
 import { posts as skeletonPosts } from '@/mixins/skeletons'
 import PostCardDashboard from '@/components/posts/PostCardDashboard'
 import { ObserveVisibility } from 'vue-observe-visibility'
+import breakpoints from '@/plugins/breakpoints'
 
 export default {
   components: {
@@ -86,8 +88,10 @@ export default {
   data () {
     return {
       skeletons: skeletonPosts(3),
+      breakpoints,
       posts: [],
       loading: true,
+      panelOpen: false,
       total: 0,
       current_page: 1,
       last_page: 1,
@@ -100,6 +104,9 @@ export default {
   computed: {
     urlWithPage () {
       return `me/posts?category=${this.scope.category}&tag=${this.scope.tag}&page=${this.current_page}`
+    },
+    showSideNav () {
+      return ['lg', 'xl'].includes(this.breakpoints.is)
     }
   },
   methods: {
@@ -162,3 +169,12 @@ export default {
   middleware: ['verified']
 }
 </script>
+
+<style scoped>
+.slide-enter-active{
+  animation: slideInRight 250ms linear;
+}
+.slide-leave-active{
+  animation: slideOutRight 250ms linear;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="lg:w-11/12 mx-auto mt-16 flex flex-wrap lg:flex-no-wrap">
-    <div class="lg:w-9/12 w-12/12 mb-6">
+  <div class="lg:w-11/12 lg:mx-auto mx-3 mt-10 lg:flex">
+    <div class="lg:w-8/12 xl:w-9/12 w-full mb-6">
       <input
         v-model="post.post_title"
         type="text"
@@ -8,17 +8,35 @@
         value="Page title"
         placeholder="Page title"
       >
-      <div class="mb-6 text-gray-600">
-        <template v-if="lastSaved">
-          Last saved at {{ lastSavedFormatted }}
-        </template>
-        <template v-else>
-          No changes saved in this session yet
-        </template>
+      <div class="mb-6 flex items-center justify-between">
+        <div class="text-gray-600 text-sm ">
+          <template v-if="lastSaved">
+            Last saved at {{ lastSavedFormatted }}
+          </template>
+          <template v-else>
+            No changes saved in this session yet
+          </template>
+        </div>
+        <div>
+          <nuxt-link
+            :to="{
+              name:'posts-id',
+              params:{
+                id:post.uuid
+              }
+            }"
+            class="mr-3 font-semibold text-sm"
+          >
+            View
+          </nuxt-link>
+        </div>
       </div>
 
       <div class="flex justify-center">
-        <div class="w-full">
+        <div
+          v-show="!panelOpen"
+          class="w-full"
+        >
           <TinyEditor
             v-model="post.post_content"
             :body="post.post_content || ''"
@@ -26,7 +44,16 @@
         </div>
       </div>
     </div>
-    <div class="lg:w-3/12">
+    <div
+      v-show="panelOpen || showSideNav"
+      class="lg:w-4/12 xl:w-3/12 w-full fixed lg:static top-0 bottom-0 right-0 bg-gray-200 lg:bg-transparent"
+    >
+      <div
+        class="m-4 lg:hidden"
+        @click.prevent="panelOpen = !panelOpen"
+      >
+        <IconArrowNarrowRight class="text-gray-600 stroke-2 h-5 w-5" />
+      </div>
       <CategoryLinkWidget
         :post="post"
       />
@@ -34,13 +61,22 @@
         :post="post"
       />
     </div>
+    <div
+      class="lg:hidden fixed z-50 right-0 bg-gray-400  rounded-l-lg flex items-center shadow-lg justify-center h-10 w-8"
+      style="top:50%"
+      :class="{'hidden':panelOpen}"
+      @click.prevent="panelOpen = !panelOpen"
+    >
+      <IconDotsVertical class="text-gray-700 stroke-2 h-5 w-4" />
+    </div>
   </div>
 </template>
 
 <script>
 
-import { debounce as _debounce } from 'lodash'
+import { throttle as _throttle } from 'lodash'
 import moment from 'moment'
+import breakpoints from '@/plugins/breakpoints'
 
 export default {
 
@@ -54,35 +90,40 @@ export default {
   data () {
     return {
       post: null,
-      lastSaved: null
+      lastSaved: null,
+      breakpoints,
+      panelOpen: false
     }
   },
 
   computed: {
     lastSavedFormatted () {
       return moment(this.lastSaved).format('HH:mm:ss')
+    },
+    showSideNav () {
+      return ['lg', 'xl'].includes(this.breakpoints.is)
     }
   },
 
   watch: {
     'post.post_title': {
-      handler: _debounce(async function (title) {
+      handler: _throttle(async function (title) {
         await this.$axios.$patch(`me/posts/${this.post.uuid}`, {
           post_title: title
         })
 
         this.touchLastSaved()
-      }, 500)
+      }, 500, false, true)
     },
 
     'post.post_content': {
-      handler: _debounce(async function (content) {
+      handler: _throttle(async function (content) {
         await this.$axios.$patch(`me/posts/${this.post.uuid}`, {
           post_content: content
         })
 
         this.touchLastSaved()
-      }, 500)
+      }, 500, false, true)
     }
   },
 

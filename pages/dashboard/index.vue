@@ -1,105 +1,150 @@
 <template>
-  <div class="lg:w-11/12 mx-auto mt-16 flex">
-    <div class="w-9/12">
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-xl text-gray-600 font-medium">
-          Your pages (1)
-        </h1>
-        <div class="flex justify-center items-center font-medium">
-          <nuxt-link
-            :to="{ name:'categories'}"
-            class="block flex items-center rounded-lg bg-blue-500 text-white hover:bg-blue-600 niz-transition-default py-2 px-4"
+  <div>
+    <PageTitle
+      title="Dashboard"
+      class="!mb-0"
+    />
+    <div class="flex relative">
+      <transition name="slide">
+        <div
+          v-show="panelOpen || showSideNav"
+          class="dashboard-nav w-8/12 xl:w-2/12 lg:w-3/12 absolute top-0 left-0 bottom-0"
+        >
+          <div
+            class="absolute top-0 right-0 m-2 lg:hidden"
+            @click.prevent="panelOpen = !panelOpen"
           >
-            <IconBookmark class="mr-2 stroke-current" />Category
-          </nuxt-link>
-
-          <nuxt-link
-            :to="{ name:'tags'}"
-            class="ml-4 block flex items-center rounded-lg py-2 px-4 bg-blue-500 text-white hover:bg-blue-600 niz-transition-default"
-          >
-            <IconTag class="mr-2 stroke-current" />Tag
-          </nuxt-link>
+            <IconArrowNarrowLeft
+              class="text-gray-600 stroke-2 h-5 w-4"
+            />
+          </div>
+          <h2>Your dashboard</h2>
+          <ul>
+            <li>Overview</li>
+          </ul>
+          <h2>Customization</h2>
+          <ul>
+            <li>
+              <nuxt-link
+                :to="{ name:'categories'}"
+                class="flex items-center"
+              >
+                <IconBookmark class="mr-2 stroke-current" />Category
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link
+                :to="{ name:'tags'}"
+                class="flex items-center"
+              >
+                <IconTag class="mr-2 stroke-current" />Tag
+              </nuxt-link>
+            </li>
+          </ul>
         </div>
-        <a href="#" class="font-medium" @click.prevent="createPost">+ Create a page</a>
+      </transition>
+      <div class="lg:flex-grow w-full mx-4 mt-10">
+        <div class="flex flex-wrap">
+          <div class="dashboard-box">
+            <div class="box-container">
+              <h2>
+                Last created
+              </h2>
+              <ul>
+                <li
+                  v-for="index in new Array(5)"
+                  :key="index"
+                >
+                  <a href="#">Random</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="dashboard-box">
+            <div class="box-container">
+              <h2>
+                Most viewed
+              </h2>
+              <ul>
+                <li
+                  v-for="index in new Array(5)"
+                  :key="index"
+                >
+                  <a href="#">Random</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="dashboard-box">
+            <div class="box-container">
+              <h2>
+                Statistics
+              </h2>
+              <ul>
+                <li
+                  v-for="index in new Array(5)"
+                  :key="index"
+                >
+                  <a href="#">Random</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="dashboard-box">
+            <div class="box-container">
+              <h2>
+                Favorites
+              </h2>
+              <ul>
+                <li
+                  v-for="index in new Array(5)"
+                  :key="index"
+                >
+                  <a href="#">Random</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-      <div v-if="posts.length===0 && !loading" class="text-gray-500 font-medium">
-        No results found for this request!
-      </div>
-
-      <PostCardDashboard
-        v-for="post in posts"
-        :key="post.uuid"
-        :post="post"
-        @deleted="removePost"
-      />
-
-      <template v-if="loading">
-        <PostCardDashboard
-          v-for="post in skeletons"
-          :key="post.uuid"
-          :post="post"
-          :loading="true"
-        />
-      </template>
-
-      <div
-        v-if="posts.length && !loading"
-        v-observe-visibility="handleScolledToBottomOfPosts"
-      />
     </div>
-    <!-- Panel Right -->
-    <div class="w-3/12 ml-3">
-      <CategoryFilterWidget
-        ref="categoryFilter"
-        @filter="filter"
-      />
-      <TagFilterWidget
-        ref="tagFilter"
-        @filter="filter"
-      />
+    <div
+      class="lg:hidden fixed left-0 bg-gray-400  rounded-r-lg flex items-center shadow-lg justify-center h-10 w-8"
+      style="top:50%"
+      :class="{'hidden':panelOpen}"
+      @click.prevent="panelOpen = !panelOpen"
+    >
+      <IconDotsVertical class="text-gray-700 stroke-2 h-5 w-4" />
+    </div>
+    <div
+      class="fixed bottom-0 right-0 m-4 bg-blue-500 rounded-full flex items-center justify-center h-16 w-16"
+      @click.prevent="createPost"
+    >
+      <IconPlus class="text-blue-300 stroke-2 h-8 w-8" />
     </div>
   </div>
 </template>
 
 <script>
-import { posts as skeletonPosts } from '@/mixins/skeletons'
-import PostCardDashboard from '@/components/posts/PostCardDashboard'
-import { ObserveVisibility } from 'vue-observe-visibility'
+import breakpoints from '@/plugins/breakpoints'
 
 export default {
   components: {
-    PostCardDashboard
-  },
-  directives: {
-    ObserveVisibility
+
   },
   async asyncData ({ app }) {
-    const response = await app.$axios.$get('/me/posts')
 
-    return {
-      posts: response.data,
-      loading: false,
-      last_page: response.meta.last_page,
-      total: response.meta.total
-    }
   },
   data () {
     return {
-      skeletons: skeletonPosts(3),
-      posts: [],
       loading: true,
-      total: 0,
-      current_page: 1,
-      last_page: 1,
-      scope: {
-        category: '',
-        tag: ''
-      }
+      panelOpen: false,
+      breakpoints
     }
   },
   computed: {
-    urlWithPage () {
-      return `me/posts?category=${this.scope.category}&tag=${this.scope.tag}&page=${this.current_page}`
+    showSideNav () {
+      return ['lg', 'xl'].includes(this.breakpoints.is)
     }
   },
   methods: {
@@ -112,45 +157,6 @@ export default {
           id: post.data.uuid
         }
       })
-    },
-    removePost (post) {
-      this.posts = this.posts.filter(p => p.uuid !== post.uuid)
-    },
-
-    filter () {
-      this.scope.tag = this.$refs.tagFilter.ids.join(',')
-      this.scope.category = this.$refs.categoryFilter.ids.join(',')
-
-      this.current_page = 1
-      this.posts = []
-      this.loadPosts({ reset: true })
-    },
-
-    _loading (step) {
-      this.loading = step
-    },
-
-    async loadPosts ({ reset }) {
-      this._loading(true)
-
-      const response = await this.$axios.$get(this.urlWithPage)
-      if (reset) {
-        this.posts = []
-      }
-      this.posts = [...this.posts, ...response.data]
-      this.last_page = response.meta.last_page
-      this.total = response.meta.total
-
-      this._loading(false)
-    },
-
-    handleScolledToBottomOfPosts (isVisible) {
-      if (!isVisible) { return }
-      if (this.current_page === this.last_page) { return }
-
-      this.current_page++
-
-      this.loadPosts({ reset: false })
     }
   },
   head () {
@@ -162,3 +168,38 @@ export default {
   middleware: ['verified']
 }
 </script>
+
+<style scoped lang="scss">
+.dashboard-nav{
+  @apply pt-5 bg-gray-200 border-gray-300 border-r-2;
+  h2{
+    @apply font-medium text-gray-700 text-lg px-4 py-3;
+  }
+  ul{
+    @apply text-gray-600 mb-2;
+    li{
+      @apply pl-8 py-3;
+      &:hover{ @apply bg-gray-300; }
+      a{ @apply text-gray-600; }
+    }
+  }
+}
+@screen lg{
+  .dashboard-box{ @apply w-1/2 #{!important}; }
+}
+.dashboard-box{
+  @apply w-full p-3;
+  .box-container{
+    @apply bg-white rounded-lg px-4 py-2;
+    h2{
+      @apply font-medium text-2xl text-gray-700;
+    }
+  }
+}
+.slide-enter-active{
+  animation: slideInLeft 250ms linear;
+}
+.slide-leave-active{
+  animation: slideOutLeft 250ms linear;
+}
+</style>

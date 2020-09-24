@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-3 rounded-lg bg-white px-6 py-4 w-full mb-4">
+  <div class="mx-3 rounded-lg bg-white px-6 py-4 mb-4">
     <h1 class="text-2xl font-medium text-gray-700 mb-4 flex items-center">
       <IconLink class="stroke-current mr-2" style="stroke-width:3" />
       <div>Tags Link</div>

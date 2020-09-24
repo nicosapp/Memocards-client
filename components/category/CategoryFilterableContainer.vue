@@ -1,5 +1,10 @@
 <template>
-  <form class="rounded-lg bg-gray-300">
+  <form
+    class="rounded-lg"
+    :class="{'bg-gray-300'
+      :!loading
+    }"
+  >
     <template v-if="!loading">
       <CategoryFilterable
         v-for="(category, index) in categories"
