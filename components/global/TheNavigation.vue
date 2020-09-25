@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-bg-secondary py-4 lg:py-0 flex flex-wrap lg:flex-no-wrap items-center border-border border-b-3">
+  <div class="sticky top-0 bg-bg md:static py-4 lg:py-0 flex flex-wrap lg:flex-no-wrap items-center border-border border-b-3">
     <div class="container flex items-center flex-wrap lg:flex-no-wrap ">
       <nuxt-link
         :to="{ name : 'index'}"

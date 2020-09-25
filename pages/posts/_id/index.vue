@@ -111,6 +111,11 @@ export default {
     showSideNav () {
       return ['lg', 'xl'].includes(this.breakpoints.is)
     }
+  },
+  head () {
+    return {
+      title: 'Post'
+    }
   }
 }
 </script>

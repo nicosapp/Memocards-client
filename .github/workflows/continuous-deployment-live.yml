@@ -1,0 +1,90 @@
+name: Continuous Deployment
+
+on:
+  # push:
+  #   branches:
+  #     - master
+  workflow_dispatch:
+    branches:
+        - master
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: SSH Create client dir
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ${{ secrets.REMOTE_TARGET_HOME }}
+            mkdir -p ./client
+          host: ${{ secrets.REMOTE_HOST }}
+          user: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+      - name: SSH Deploy App
+        uses: easingthemes/ssh-deploy@v2.1.1
+        env:
+            SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+            ARGS: "-rltgoDzvO --delete"
+            SOURCE: "./"
+            REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+            REMOTE_USER: ${{ secrets.REMOTE_USER }}
+            TARGET: ${{ secrets.REMOTE_TARGET_HOME }}client
+      - name: SSH Install Dep
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ${{ secrets.REMOTE_TARGET_HOME }}/client
+            cp ../.env.client ./.env
+            npm install
+            npm run generate
+            mkdir -p ${{ secrets.REMOTE_TARGET_WWW }}client/
+            cp -r ./dist/* ${{ secrets.REMOTE_TARGET_WWW }}client/
+          host: ${{ secrets.REMOTE_HOST }}
+          user: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}    
+
+
+      # - name: Install npm dependencies
+      #   run: npm install
+      # - name: Build
+      #   run: npm run generate
+      # - name: List dir
+      #   run: ls
+      # - name: SSH Deploy App
+      #   uses: easingthemes/ssh-deploy@v2.1.1
+      #   env:
+      #       SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+      #       ARGS: "-rltgoDzvO --delete"
+      #       SOURCE: "dist/"
+      #       REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+      #       REMOTE_USER: ${{ secrets.REMOTE_USER }}
+      #       TARGET: ${{ secrets.REMOTE_TARGET }}/client
+  # backend:
+  #   needs: build
+  #   name: Backend
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     # - name: Display files
+  #     #   run: ls
+  #     - name: SSH Deploy Backend
+  #       uses: easingthemes/ssh-deploy@v2.1.1
+  #       env:
+  #           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+  #           ARGS: "-rltgoDzvO --delete"
+  #           SOURCE: "backend/"
+  #           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+  #           REMOTE_USER: ${{ secrets.REMOTE_USER }}
+  #           TARGET: ${{ secrets.REMOTE_TARGET }}/backend
+  #     - name: SSH npm install & nodemon app.js
+  #       uses: fifsky/ssh-action@master
+  #       with:
+  #         command: |
+  #           cd ${{ secrets.REMOTE_TARGET }}/backend
+  #           pm2 kill
+  #           npm install && pm2 start app.js --name "nini-backend"
+  #         host: ${{ secrets.REMOTE_HOST }}
+  #         user: ${{ secrets.REMOTE_USER }}
+  #         key: ${{ secrets.SERVER_SSH_KEY }}
