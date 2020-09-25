@@ -3,12 +3,12 @@
     <div
       v-if="!loading"
       class="flex flex-wrap lg:flex-no-wrap justify-between items-center
-    w-full bg-white rounded-lg mb-2 p-8"
+    w-full bg-bg-light rounded-lg mb-2 p-8"
     >
       <div class="lg:w-8/12 w-full">
         <h1>
           <nuxt-link
-            class="text-gray-600 font-medium text-lg"
+            class="text-text-primary font-medium text-lg"
             :to="{
               name: 'posts-id',
               params:{
@@ -19,10 +19,10 @@
             {{ post.post_title || 'Untitled page' }}
           </nuxt-link>
         </h1>
-        <div class="text-gray-500 mb-2 text-sm">
+        <div class="text-text-secondary mb-2 text-sm">
           {{ post.post_excerpt | read-more }}
         </div>
-        <div class="lg:flex items-center justify-start text-gray-500 text-sm w-full">
+        <div class="lg:flex items-center justify-start text-text-secondary text-sm w-full">
           <div class="mb-2 lg:mb-0 lg:w-4/12 flex items-center justify-start text-xs">
             <IconBookmark class="h-5 w-5 stroke-current  mr-2" />
             <template v-if="post.categories.length">
@@ -62,7 +62,7 @@
     <div
       v-else
       class="flex flex-wrap lg:flex-no-wrap justify-between items-center
-    w-full bg-white rounded-lg mb-2 p-8 shadow-sm"
+    w-full bg-bg-light rounded-lg mb-2 p-8 shadow-sm"
     >
       <div>
         <SkeletonBox class="rounded-full inline-block mb-3">

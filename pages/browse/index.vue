@@ -31,7 +31,7 @@
       <transition name="slide">
         <div
           v-show="panelOpen || showSideNav"
-          class="fixed top-0 left-0 bottom-0 w-full bg-gray-300 lg:relative lg:w-4/12 xl:w-3/12 lg:ml-3"
+          class="fixed top-0 left-0 bottom-0 w-full lg:relative lg:w-4/12 xl:w-3/12 lg:ml-3"
         >
           <div
             class="m-4 lg:hidden"
@@ -125,8 +125,8 @@ export default {
     },
 
     filter () {
-      this.scope.tag = this.$refs.tagFilter.ids.join(',')
-      this.scope.category = this.$refs.categoryFilter.ids.join(',')
+      this.scope.tag = this.$refs.tagFilter.selected.join(',')
+      this.scope.category = this.$refs.categoryFilter.selected.join(',')
 
       this.current_page = 1
       this.posts = []

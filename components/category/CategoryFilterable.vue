@@ -2,10 +2,10 @@
   <div class="overflow-hidden">
     <template v-if="!loading">
       <div
-        class="lg:hover:bg-gray-400 py-3 px-4 flex items-center"
+        class="lg:hover:bg-bg-primary py-3 px-4 flex items-center"
         :class="marginLeft"
       >
-        <div class="flex-grow text-gray-700">
+        <div class="flex-grow text-text-primary">
           <NizInputCheckbox
             v-model="checked"
             :value="category.id"
@@ -17,7 +17,7 @@
           </NizInputCheckbox>
         </div>
         <div
-          class="rounded-full bg-gray-400 text-gray-600 h-6 w-6 flex items-center justify-center cursor-pointer"
+          class="rounded-full bg-bg-light text-text-primary h-6 w-6 flex items-center justify-center cursor-pointer"
           @click.prevent="open = !open"
         >
           <IconChevronLeft class="h-4 w-4 stroke-3 stroke-current" :class="{'hidden':open}" />

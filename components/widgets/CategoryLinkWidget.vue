@@ -1,6 +1,6 @@
 <template>
-  <div class="mx-3 rounded-lg bg-white px-6 py-4 mb-4">
-    <h1 class="text-2xl font-medium text-gray-700 mb-4 flex items-center">
+  <div class="mx-3 rounded-lg bg-bg-light px-6 py-4 mb-4">
+    <h1 class="text-2xl font-medium text-text-primary mb-4 flex items-center">
       <IconLink class="stroke-current mr-2" style="stroke-width:3" />
       <div>Categories Link</div>
     </h1>
@@ -58,11 +58,11 @@ export default {
     click (category) {
       if (!this.post.categories.filter(c => c.id === category.id).length) {
         this.post.categories.push(category)
-        this.$toast.show('Category is linked now!').goAway(1500)
+        this.$notifySuccess({ title: 'Category linked!', text: 'Your category is now linked!' })
         try {
           this.$axios.post(`me/categories/${category.id}/link/${this.post.uuid}`)
         } catch (e) {
-
+          this.$notifyError({ title: 'Error!', text: 'There is an error!' })
         }
       }
     },
@@ -70,9 +70,9 @@ export default {
       this.post.categories = this.post.categories.filter(c => c.id !== category.id)
       try {
         this.$axios.post(`me/categories/${category.id}/unlink/${this.post.uuid}`)
-        this.$toast.show('Category is unlinked now!').goAway(1500)
+        this.$notifySuccess({ title: 'Category unlinked!', text: 'Your category is now unlinked!' })
       } catch (e) {
-
+        this.$notifyError({ title: 'Error!', text: 'There is an error!' })
       }
     },
     query: _debounce(async function () {

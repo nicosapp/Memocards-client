@@ -1,6 +1,6 @@
 <template>
-  <div class="mx-3 rounded-lg bg-white px-6 py-4 mb-4">
-    <h1 class="text-2xl font-medium text-gray-700 mb-4 flex items-center">
+  <div class="mx-3 rounded-lg bg-bg-light px-6 py-4 mb-4">
+    <h1 class="text-2xl font-medium text-text-primary mb-4 flex items-center">
       <IconLink class="stroke-current mr-2" style="stroke-width:3" />
       <div>Tags Link</div>
     </h1>
@@ -60,9 +60,9 @@ export default {
         this.post.tags.push(tag)
         try {
           this.$axios.post(`me/tags/${tag.id}/link/${this.post.uuid}`)
-          this.$toast.show('Tag is linked now!').goAway(1500)
+          this.$notifySuccess({ title: 'Tag linked!', text: 'Your tag is now linked!' })
         } catch (e) {
-
+          this.$notifyError({ title: 'Error!', text: 'There is an error!' })
         }
       }
     },
@@ -70,9 +70,9 @@ export default {
       this.post.tags = this.post.tags.filter(t => t.id !== tag.id)
       try {
         this.$axios.post(`me/tags/${tag.id}/unlink/${this.post.uuid}`)
-        this.$toast.show('Tag is unlinked now!').goAway(1500)
+        this.$notifySuccess({ title: 'Tag unlinked!', text: 'Your tag is now unlinked!' })
       } catch (e) {
-
+        this.$notifyError({ title: 'Error!', text: 'There is an error!' })
       }
     },
     query: _debounce(async function () {

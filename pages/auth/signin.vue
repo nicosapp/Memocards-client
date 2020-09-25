@@ -1,12 +1,12 @@
 <template>
   <div class="container mt-16">
     <div class="flex flex-col items-center">
-      <h1 class="text-3xl text-gray-700 font-medium mb-10">
+      <h1 class="text-3xl text-text-secondary font-medium mb-10">
         Hello.
       </h1>
       <form
         action="#"
-        class="bg-white p-8 rounded w-full mb-6 md:w-6/12 lg:w-4/12"
+        class="bg-bg-light p-8 rounded w-full mb-6 md:w-6/12 lg:w-4/12"
         @submit.prevent="submit"
       >
         <NizInputText
@@ -18,45 +18,45 @@
           class="w-full"
         >
           <slot slot="before">
-            <IconAtSymbol class="stroke-2 text-gray-400 h-6 w-6 ml-2" />
+            <IconAtSymbol class="stroke-2 text-text-secondary h-6 w-6 ml-2" />
           </slot>
         </NizInputText>
 
         <NizInputText
           v-model="form.password"
-          label="Password"
+          :label="$t('Password')"
           :error="validation.password"
-          placeholder="Password"
+          :placeholder="$t('Password')"
           name="password"
           :password="true"
           class="w-full"
         >
-          <div class="text-sm text-gray-600 mb-6 flex justify-end">
+          <div class="text-sm mb-6 flex justify-end">
             <nuxt-link
               :to="{
                 name:'password-reset'
               }"
             >
-              Forgot your password?
+              {{ $t('Forgot your password?') }}
             </nuxt-link>
           </div>
         </NizInputText>
 
         <div>
           <NizButtonSubmit
-            value="Signin"
+            :value="$t('Sign in')"
             class="w-full"
             :loading="loading"
             :disabled="submitDisabled"
           />
         </div>
       </form>
-      <div class="text-center text-gray-600">
-        No account?
+      <div class="text-center text-text-secondary">
+        {{ $t('No account?') }}
         <nuxt-link
           :to="{name: 'auth-signup'}"
         >
-          Create one here
+          {{ $t('Create one here') }}
         </nuxt-link>
       </div>
     </div>

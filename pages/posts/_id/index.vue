@@ -56,21 +56,25 @@
       </div>
     </PageTitle>
     <div class="mx-3 lg:mx-8 xl:mx-16 flex">
-      <div class="lg:w-8/12 xl:w-9/12 w-full min-h-screen bg-white p-4 rounded-lg">
+      <div class="lg:w-8/12 xl:w-9/12 w-full min-h-screen bg-bg-light text-text-primary p-4 rounded-lg">
         <div v-html="post.post_content" />
       </div>
-      <div
-        v-show="panelOpen || showSideNav"
-        class="lg:w-4/12 xl:3/12 lg:mx-5 px-3 w-full fixed lg:static top-0 bottom-0 right-0 bg-gray-200 lg:bg-transparent"
-      >
+      <transition name="slide">
         <div
-          class="m-4 lg:hidden"
-          @click.prevent="panelOpen = !panelOpen"
+          v-show="panelOpen || showSideNav"
+          class="lg:w-4/12 xl:3/12 lg:mx-5 px-3 w-full fixed lg:static top-0 bottom-0 right-0 bg-bg lg:bg-transparent"
         >
-          <IconArrowNarrowRight class="text-gray-600 stroke-2 h-5 w-5" />
+          <div
+            class="m-4 lg:hidden"
+            @click.prevent="panelOpen = !panelOpen"
+          >
+            <IconArrowNarrowRight class="text-gray-600 stroke-2 h-5 w-5" />
+          </div>
+          <TableOfContent
+            :post-content="post.post_content"
+          />
         </div>
-        <TableOfContent />
-      </div>
+      </transition>
     </div>
     <div
       class="lg:hidden fixed z-50 right-0 bg-gray-400  rounded-l-lg flex items-center shadow-lg justify-center h-10 w-8"
@@ -110,3 +114,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.slide-enter-active{
+  animation: slideInRight 250ms linear;
+}
+.slide-leave-active{
+  animation: slideOutRight 250ms linear;
+}
+</style>

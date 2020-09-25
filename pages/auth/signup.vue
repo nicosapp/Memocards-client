@@ -2,7 +2,7 @@
   <div class="container mt-16">
     <div class="flex flex-col items-center">
       <h1 class="text-3xl text-gray-700 font-medium mb-10">
-        Sign Up!
+        {{ $t('Sign up') }}!
       </h1>
       <form
         action="#"
@@ -15,9 +15,11 @@
             v-model="form.email"
             label="Email"
             :error="validation.email"
+            :email-validator="true"
             placeholder="Email"
             name="email"
             class="w-full"
+            @emailValid="(valid)=>{emailValid=valid}"
           >
             <slot slot="before">
               <IconAtSymbol class="stroke-2 text-gray-400 h-6 w-6 ml-2" />
@@ -27,9 +29,9 @@
           <!-- USERNAME -->
           <NizInputText
             v-model="form.username"
-            label="Username"
+            :label="$t('Username')"
             :error="validation.username"
-            placeholder="Username"
+            :placeholder="$t('Username')"
             name="username"
             class="w-full md:ml-4"
           >
@@ -62,28 +64,32 @@
         <div class="flex justify-between flex-wrap lg:flex-no-wrap">
           <NizInputText
             v-model="form.password"
-            label="Password"
+            :label="$t('Password')"
             :error="validation.password"
-            placeholder="Password"
+            :placeholder="$t('Password')"
             name="password"
             :password="true"
+            :password-validator="true"
             class="w-full"
+            @passwordValid="(valid)=>{ passwordValid=valid }"
           />
 
           <NizInputText
             v-model="form.password_confirmation"
-            label="Password confirmation"
+            :label="$t('Password confirmation')"
             :error="validation.password_confirmation"
             placeholder="Confirmation"
             name="password"
             :password="true"
             class="w-full md:ml-4"
+            :password-match="form.password"
+            @passwordMatch="(match)=>{ passwordMatch=match }"
           />
         </div>
 
         <div>
           <NizButtonSubmit
-            value="Sign up"
+            :value="$t('Sign up')"
             class="w-full"
             :loading="loading"
             :disabled="submitDisabled"
@@ -91,11 +97,11 @@
         </div>
       </form>
       <div class="text-center text-gray-600">
-        Already an account?
+        {{ $t('Already an account?') }}
         <nuxt-link
           :to="{name: 'auth-signin'}"
         >
-          Sign in here
+          {{ $t('Sign in here') }}
         </nuxt-link>
       </div>
     </div>
@@ -115,17 +121,29 @@ export default {
         password_confirmation: ''
       },
       loading: false,
-      validation: {}
+      validation: {},
+      passwordValid: false,
+      passwordMatch: false,
+      emailValid: false
     }
   },
   computed: {
     submitDisabled () {
-      return this.form.email.length === 0 || this.form.username.length === 0 ||
-      this.form.password.length === 0 || this.form.password_confirmation.length === 0
+      return this.form.email.length === 0 ||
+      this.form.username.length === 0 ||
+      this.form.password.length === 0 ||
+      this.form.password_confirmation.length === 0 ||
+      this.passwordValid === false ||
+      this.passwordMatch === false ||
+      this.emailValid === false
     }
   },
   methods: {
     async submit () {
+      if (this.submitDisabled) {
+        this.$notifyError({ title: 'Error', text: 'Some fields are invalid!' })
+        return
+      }
       try {
         this.loading = true
         this.form.name = this.form.username
@@ -148,6 +166,7 @@ export default {
         }
       }
     }
+
   },
   head () {
     return {

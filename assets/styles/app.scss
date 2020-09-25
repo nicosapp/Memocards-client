@@ -1,20 +1,21 @@
 @import "./palettes.scss";
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
 body{
-    @apply bg-gray-200;
+    @apply bg-bg;
 }
 
 h1, h2, h3, h4, h5, h6{
     @apply font-header;
 }
 a{
-    @apply text-blue-500;
+    @apply text-btn-hover;
 }
 p{
-    @apply text-gray-600 mb-6 leading-relaxed;
+    @apply text-text-primary mb-6 leading-relaxed;
 }
 .container{
     @apply w-10/12 mx-auto;

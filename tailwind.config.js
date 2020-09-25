@@ -8,6 +8,29 @@ module.exports = {
   theme: {
     colorModes: ['dark', 'rainbow'],
     extend: {
+      colors: {
+        text: {
+          default: 'var(--color)',
+          primary: 'var(--color-primary)',
+          secondary: 'var(--color-secondary)'
+        },
+        btn: {
+          text: 'var(--btn-text-color)',
+          bg: 'var(--btn-color)',
+          hover: 'var(--btn-color-hover)'
+        },
+        bg: {
+          default: 'var(--bg)',
+          light: 'var(--bg-light)',
+          primary: 'var(--bg-primary)'
+        },
+        border: {
+          default: 'var(--border-color)'
+        }
+      },
+      borderWidth: {
+        3: '3px'
+      },
       fontFamily: {
         header: ['Rubik', 'sans-serif']
       },

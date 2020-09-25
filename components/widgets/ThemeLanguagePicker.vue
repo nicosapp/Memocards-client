@@ -2,7 +2,7 @@
   <div>
     <NizDropdown>
       <template slot="trigger">
-        <IconCog class="fill-current text-gray-600 w-5" />
+        <IconCog class="fill-current text-text-secondary w-5" />
       </template>
       <NizDropdownTitle>
         Theme
@@ -15,9 +15,9 @@
         <div class="flex justify-start items-center">
           <component
             :is="`icon-${color}`"
-            class="block w-6 h-6 mr-3"
+            class="block w-6 h-6 mr-3 text-text stroke-2"
           />
-          <div :class="{'text-blue-500': color == activeColorMode}">
+          <div :class="{'text-btn-bg': color == activeColorMode}">
             {{ color | capitalize }}
           </div>
         </div>
@@ -37,7 +37,7 @@
             class="block w-6 mr-3"
           />
 
-          <div :class="{'text-blue-500': locale.code == activeLocale}">
+          <div :class="{'text-btn-bg': locale.code == activeLocale}">
             {{ locale.name }}
           </div>
         </div>
@@ -68,7 +68,8 @@ export default {
   },
   data () {
     return {
-      colors: ['light', 'dark', 'rainbow']
+      // colors: ['light', 'dark', 'rainbow']
+      colors: ['light', 'dark']
     }
   },
   computed: {

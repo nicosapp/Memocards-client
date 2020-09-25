@@ -1,7 +1,7 @@
 <template>
   <a
     href="#"
-    class="block py-3 px-4 text-gray-700 hover:bg-gray-300 niz-transition-default"
+    class="block py-3 px-4 text-text-primary hover:bg-bg-light niz-transition-default"
     @click.prevent="handleClick"
   >
     <slot />

@@ -13,7 +13,7 @@
     />
     <div
       v-show="open"
-      class="absolute bg-white rounded-br-lg rounded-bl-lg w-full"
+      class="absolute bg-white rounded-br-lg rounded-bl-lg w-full z-20"
       style="box-shadow: 0px 4px 15px 0 #ababab"
     >
       <template v-if="!loading">

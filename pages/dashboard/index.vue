@@ -15,7 +15,7 @@
             @click.prevent="panelOpen = !panelOpen"
           >
             <IconArrowNarrowLeft
-              class="text-gray-600 stroke-2 h-5 w-4 inline-block"
+              class="text-text-primary stroke-2 h-5 w-4 inline-block"
             />
           </div>
           <h2>Your dashboard</h2>
@@ -171,16 +171,16 @@ export default {
 
 <style scoped lang="scss">
 .dashboard-nav{
-  @apply bg-gray-200 border-gray-300 border-r-2;
+  @apply bg-bg border-border border-r-2;
   h2{
-    @apply font-medium text-gray-700 text-lg px-4 py-3;
+    @apply font-medium text-text text-lg px-4 py-3;
   }
   ul{
-    @apply text-gray-600 mb-2;
+    @apply text-text-primary mb-2;
     li{
       @apply pl-8 py-3;
-      &:hover{ @apply bg-gray-300; }
-      a{ @apply text-gray-600; }
+      &:hover{ @apply bg-bg-light; }
+      a{ @apply text-text-primary; }
     }
   }
 }
@@ -190,9 +190,9 @@ export default {
 .dashboard-box{
   @apply w-full p-3;
   .box-container{
-    @apply bg-white rounded-lg px-4 py-2;
+    @apply bg-bg-primary rounded-lg px-4 py-2;
     h2{
-      @apply font-medium text-2xl text-gray-700;
+      @apply font-medium text-2xl text-text;
     }
   }
 }

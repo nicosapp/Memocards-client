@@ -87,19 +87,19 @@ export default {
           code: 'fr',
           iso: 'fr-FR',
           file: 'fr-FR.js'
-        },
-        {
-          name: 'Deutsch',
-          code: 'de',
-          iso: 'de-DE',
-          file: 'de-DE.js'
-        },
-        {
-          name: 'Español',
-          code: 'es',
-          iso: 'es-ES',
-          file: 'es-ES.js'
         }
+        // {
+        //   name: 'Deutsch',
+        //   code: 'de',
+        //   iso: 'de-DE',
+        //   file: 'de-DE.js'
+        // },
+        // {
+        //   name: 'Español',
+        //   code: 'es',
+        //   iso: 'es-ES',
+        //   file: 'es-ES.js'
+        // }
 
       ],
       lazy: true,

@@ -1,7 +1,7 @@
 <template>
   <form
     class="rounded-lg"
-    :class="{'bg-gray-300'
+    :class="{'bg-bg'
       :!loading
     }"
   >

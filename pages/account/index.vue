@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-col items-center bg-white pt-10">
-      <h1 class="text-3xl text-gray-700 font-medium mb-10">
+      <h1 class="text-3xl text-gray-700 text-center font-medium mb-10">
         Hello. {{ $auth.user.firstname }} {{ $auth.user.name }}
       </h1>
       <div class="flex justify-content items-center mb-6">
@@ -22,11 +22,13 @@
         <div class="md:flex justify-between">
           <NizInputText
             v-model="form.email"
+            :email-validator="true"
             label="Email"
             :error="validation.email"
             placeholder="Email"
             name="email"
             class="w-full"
+            @emailValid="(valid)=>{emailValid=valid}"
           >
             <slot slot="before">
               <IconAtSymbol class="stroke-2 text-gray-400 h-6 w-6 ml-2" />
@@ -35,9 +37,9 @@
 
           <NizInputText
             v-model="form.username"
-            label="Username"
+            :label="$t('Username')"
             :error="validation.username"
-            placeholder="Username"
+            :placeholder="$t('Username')"
             name="username"
             class="w-full md:ml-4"
           >
@@ -50,18 +52,18 @@
         <div class="md:flex justify-between">
           <NizInputText
             v-model="form.firstname"
-            label="First name"
+            :label="$t('First name')"
             :error="validation.firstname"
-            placeholder="First name"
+            :placeholder="$t('First name')"
             name="firstname"
             class="w-full"
           />
 
           <NizInputText
             v-model="form.name"
-            label="Last name"
+            :label="$t('Last name')"
             :error="validation.name"
-            placeholder="Last name"
+            :placeholder="$t('Last name')"
             name="name"
             class="w-full md:ml-4"
           />
@@ -71,16 +73,20 @@
           <!-- PASSWORD -->
           <NizInputText
             v-model="form.password"
-            label="Password"
+            :label="$t('Password')"
             :error="validation.password"
+            :password-validator="true"
             placeholder="Password"
             name="password"
             :password="true"
             class="w-full"
+            @passwordValid="(valid)=>{ passwordValid=valid }"
           >
-            <div class="text-sm text-gray-500">
-              Leave blank to keep the same
-            </div>
+            <slot slot="label">
+              <span class="text-sm text-gray-500">
+                ({{ $t('Leave blank to keep the same') }})
+              </span>
+            </slot>
           </NizInputText>
 
           <!-- <NizInputText
@@ -96,7 +102,8 @@
 
         <div>
           <NizButtonSubmit
-            value="Update"
+            :disabled="submitDisabled"
+            :value="$t('Update')"
             class="w-full"
           />
         </div>
@@ -120,13 +127,19 @@ export default {
       },
       validation: {},
       mediaTypes: {},
-      progress: 0
+      progress: 0,
+      emailValid: false,
+      passwordValid: false
     }
   },
 
   computed: {
     avatarUrl () {
       return this.$auth.user.avatar ? this.$auth.user.avatar.url : null
+    },
+    submitDisabled () {
+      return this.emailValid === false ||
+        (this.form.password.length > 0 && this.passwordValid === false)
     }
   },
 
@@ -143,8 +156,8 @@ export default {
         this.form.password = ''
         this.validation = {}
         this.$notifySuccess({
-          title: 'Profil updated',
-          text: 'Your profil is now updated!'
+          title: this.$i18n.t('Profil updated'),
+          text: this.$i18n.t('Your profil is now updated!')
         })
       } catch (e) {
         if (e.response.status === 422) {

@@ -4,17 +4,17 @@
       <input
         v-model="post.post_title"
         type="text"
-        class="text-4xl text-gray-700 font-medium font-header mb-4 w-full block py-2 px-4 border-0 rounded"
+        class="text-4xl text-text-primary bg-bg-light font-medium font-header mb-4 w-full block py-2 px-4 border-0 rounded"
         value="Page title"
         placeholder="Page title"
       >
       <div class="mb-6 flex items-center justify-between">
-        <div class="text-gray-600 text-sm ">
+        <div class="text-text-primary text-sm ">
           <template v-if="lastSaved">
             Last saved at {{ lastSavedFormatted }}
           </template>
           <template v-else>
-            No changes saved in this session yet
+            {{ $t('No changes saved in this session yet') }}
           </template>
         </div>
         <div>
@@ -32,35 +32,39 @@
         </div>
       </div>
 
-      <div class="flex justify-center">
-        <div
-          v-show="!panelOpen"
-          class="w-full"
-        >
-          <TinyEditor
-            v-model="post.post_content"
-            :body="post.post_content || ''"
-          />
+      <transition name="slide">
+        <div class="flex justify-center">
+          <div
+            v-show="!panelOpen"
+            class="w-full"
+          >
+            <TinyEditor
+              v-model="post.post_content"
+              :body="post.post_content || ''"
+            />
+          </div>
         </div>
-      </div>
+      </transition>
     </div>
-    <div
-      v-show="panelOpen || showSideNav"
-      class="lg:w-4/12 xl:w-3/12 w-full fixed lg:static top-0 bottom-0 right-0 bg-gray-200 lg:bg-transparent"
-    >
+    <transition name="slide">
       <div
-        class="m-4 lg:hidden"
-        @click.prevent="panelOpen = !panelOpen"
+        v-show="panelOpen || showSideNav"
+        class="lg:w-4/12 xl:w-3/12 w-full fixed lg:static top-0 bottom-0 right-0 bg-gray-200 lg:bg-transparent"
       >
-        <IconArrowNarrowRight class="text-gray-600 stroke-2 h-5 w-5" />
+        <div
+          class="m-4 lg:hidden"
+          @click.prevent="panelOpen = !panelOpen"
+        >
+          <IconArrowNarrowRight class="text-gray-600 stroke-2 h-5 w-5" />
+        </div>
+        <CategoryLinkWidget
+          :post="post"
+        />
+        <TagLinkWidget
+          :post="post"
+        />
       </div>
-      <CategoryLinkWidget
-        :post="post"
-      />
-      <TagLinkWidget
-        :post="post"
-      />
-    </div>
+    </transition>
     <div
       class="lg:hidden fixed z-50 right-0 bg-gray-400  rounded-l-lg flex items-center shadow-lg justify-center h-10 w-8"
       style="top:50%"
@@ -141,3 +145,12 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.slide-enter-active{
+  animation: slideInRight 250ms linear;
+}
+.slide-leave-active{
+  animation: slideOutRight 250ms linear;
+}
+</style>

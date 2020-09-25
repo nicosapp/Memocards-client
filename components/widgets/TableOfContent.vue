@@ -1,6 +1,6 @@
 <template>
-  <div class="text-blue-500 border border-gray-400 rounded-lg p-4 m-3">
-    <h2 class="font-medium text-2xl text-gray-700">
+  <div class="text-blue-500 border border-border rounded-lg p-4 m-3">
+    <h2 class="font-medium text-2xl text-text">
       Table of Content
     </h2>
     <div class="text-sm">

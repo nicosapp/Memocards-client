@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-200 py-4 lg:py-0 flex flex-wrap lg:flex-no-wrap items-center border-gray-400 border-b-2">
+  <div class="bg-bg-secondary py-4 lg:py-0 flex flex-wrap lg:flex-no-wrap items-center border-border border-b-3">
     <div class="container flex items-center flex-wrap lg:flex-no-wrap ">
       <nuxt-link
         :to="{ name : 'index'}"
@@ -15,9 +15,9 @@
         class="lg:hidden ml-auto flex flex-col relative justify-center w-8 h-8"
         @click.prevent="mobileNavOpen =!mobileNavOpen"
       >
-        <span class="bg-gray-500 h-1 w-8 rounded mb-1" />
-        <span class="bg-gray-500 h-1 w-8 rounded mb-1" />
-        <span class="bg-gray-500 h-1 w-8 rounded mb-1" />
+        <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
+        <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
+        <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
       </a>
       <div
         class="laptop-nav w-full lg:flex hidden"
@@ -27,7 +27,7 @@
             <nuxt-link
               :to="{name:'browse'}"
             >
-              Browse
+              {{ $t('Browse') }}
             </nuxt-link>
           </li>
           <li>
@@ -35,10 +35,10 @@
               :to="{name:'search'}"
             >
               <IconSearch
-                class="stroke-current inline-block mr-1 h-5 w-5 text-gray-600"
+                class="stroke-current inline-block mr-1 h-5 w-5 text-text-secondary"
                 style="stroke-width: 3;"
               />
-              Search
+              {{ $t('Search') }}
             </nuxt-link>
           </li>
         </ul>
@@ -54,7 +54,7 @@
                 :to="{name:'dashboard'}"
                 class=""
               >
-                Dashboard
+                {{ $t('Dashboard') }}
               </nuxt-link>
             </li>
             <li>
@@ -75,7 +75,7 @@
                 class=""
                 @click.prevent="signOut"
               >
-                Sign out
+                {{ $t('Sign out') }}
               </a>
             </li>
           </template>
@@ -85,7 +85,7 @@
                 :to="{name:'auth-signin'}"
                 class=""
               >
-                Sign in
+                {{ $t('Sign in') }}
               </nuxt-link>
             </li>
             <li>
@@ -93,7 +93,7 @@
                 :to="{name:'auth-signup'}"
                 class=""
               >
-                Create an account
+                {{ $t('Create an account') }}
               </nuxt-link>
             </li>
           </template>
@@ -109,14 +109,14 @@
               <nuxt-link
                 :to="{name:'browse'}"
               >
-                Browse
+                {{ $t('Browse') }}
               </nuxt-link>
             </li>
             <li>
               <nuxt-link
                 :to="{name:'search'}"
               >
-                Search
+                {{ $t('Search') }}
               </nuxt-link>
             </li>
             <template v-if="$auth.loggedIn">
@@ -125,7 +125,7 @@
                   :to="{name:'dashboard'}"
                   class=""
                 >
-                  Dashboard
+                  {{ $t('Dashboard') }}
                 </nuxt-link>
               </li>
               <li>
@@ -142,7 +142,7 @@
                   class=""
                   @click.prevent="signOut"
                 >
-                  Sign out
+                  {{ $t('Sign out') }}
                 </a>
               </li>
             </template>
@@ -152,7 +152,7 @@
                   :to="{name:'auth-signin'}"
                   class=""
                 >
-                  Sign in
+                  {{ $t('Sign in') }}
                 </nuxt-link>
               </li>
               <li>
@@ -160,7 +160,7 @@
                   :to="{name:'auth-signup'}"
                   class=""
                 >
-                  Create an account
+                  {{ $t('Create an account') }}
                 </nuxt-link>
               </li>
             </template>
@@ -200,10 +200,10 @@ export default {
 <style scoped lang="scss">
 .laptop-nav{
   ul.menu > li a{
-    @apply  font-medium font-header rounded-lg text-lg text-gray-600 py-4 px-3;
+    @apply  font-medium font-header rounded-lg text-lg text-text-primary py-4 px-3;
   }
   ul.menu > li a:hover{
-    @apply bg-gray-300;
+    @apply bg-bg-light;
   }
 }
 .mobile-nav{
@@ -211,7 +211,7 @@ export default {
   ul li {
     @apply text-center font-header font-medium  py-2;
     a {
-      @apply text-lg text-gray-600;
+      @apply text-lg text-text-primary;
     }
   }
 }

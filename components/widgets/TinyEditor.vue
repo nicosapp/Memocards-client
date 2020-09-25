@@ -5,9 +5,11 @@
 </template>
 
 <script>
-import 'tinymce/skins/ui/oxide/skin.min.css'
-import 'tinymce/skins/ui/oxide/content.min.css'
+// import 'tinymce/skins/ui/oxide/skin.min.css'
+// import 'tinymce/skins/ui/oxide/content.min.css'
+
 // import 'tinymce/skins/content/default/content.css'
+// import '~/assets/styles/post-content-editor.scss'
 
 export default {
   props: {
@@ -24,6 +26,9 @@ export default {
   computed: {
     randomId () {
       return Math.random().toString(36).substr(2, 9)
+    },
+    themeMode () {
+      return this.$colorMode.preference === 'dark' ? 'dark' : 'light'
     }
   },
   mounted () {
@@ -57,6 +62,10 @@ export default {
     require('tinymce/plugins/preview')
     require('tinymce/plugins/code')
 
+    const oxide = this.themeMode === 'light' ? 'oxide' : 'oxide-dark'
+    const contentCss = this.themeMode === 'light' ? 'default' : 'dark'
+    require(`tinymce/skins/ui/${oxide}/skin.min.css`)
+    require(`tinymce/skins/ui/${oxide}/content.min.css`)
     // const contentCss = require('~/assets/styles/tinyeditor.scss')
     // console.log('css', contentCss)
     // require.context(
@@ -65,13 +74,12 @@ export default {
     //   /.*/
     // )
 
-    // Initialize the app
     const self = this
     tinymce.init({
       selector: '#' + this.randomId,
       height: 500,
       skin: false,
-      content_css: false,
+      content_css: `/skins/content/${contentCss}/content.min.css`,
       menubar: true,
       plugins: [
         'advlist autolink lists link image charmap print preview anchor',

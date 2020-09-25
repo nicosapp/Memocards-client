@@ -1,6 +1,6 @@
 <template>
-  <div class="mx-3 rounded-lg bg-white px-6 py-4 mb-4">
-    <h1 class="text-2xl font-medium text-gray-700 mb-4 flex items-center">
+  <div class="mx-3 rounded-lg bg-bg-light px-6 py-4 mb-4">
+    <h1 class="text-2xl font-medium text-text-primary mb-4 flex items-center">
       <IconAdjustments class="stroke-current mr-2 stroke-2" />
       <div>Categories</div>
     </h1>
