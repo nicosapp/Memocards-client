@@ -10,9 +10,9 @@
 
     <div class="w-full lg:w-7/12 lg:bg-transparent bg-white py-10 lg:py-0 mx-auto">
       <div class="mx-3 rounded-lg bg-white px-4 py-3">
-        <div class="flex justify-end mb-2">
+        <div class="md:flex justify-end mb-2">
           <form
-            class="flex w-full items-center mr-2"
+            class="flex w-full items-center mr-2 mb-2 md:mb-0"
             @submit.prevent="add"
           >
             <input
@@ -30,6 +30,7 @@
           <NizButtonSubmit
             value="Save"
             type="button"
+            class="w-full lg:w-auto"
             :loading="loading"
             @click="updateCategories"
           />

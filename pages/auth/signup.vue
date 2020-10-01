@@ -1,12 +1,12 @@
 <template>
-  <div class="container mt-16">
+  <div class="mx-4 md:container mt-16">
     <div class="flex flex-col items-center">
       <h1 class="text-3xl text-gray-700 font-medium mb-10">
         {{ $t('Sign up') }}!
       </h1>
       <form
         action="#"
-        class="bg-white p-8 rounded w-full mb-6 md:w-10/12 lg:w-8/12"
+        class="bg-white p-4 md:p-8 rounded w-full mb-6 md:w-10/12 lg:w-8/12"
         @submit.prevent="submit"
       >
         <div class="flex justify-between flex-wrap lg:flex-no-wrap">

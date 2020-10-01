@@ -1,33 +1,60 @@
 <template>
   <div class="sticky top-0 bg-bg md:static py-2 lg:py-0 flex flex-wrap lg:flex-no-wrap items-center border-border border-b-3">
     <div class="container flex items-center flex-wrap lg:flex-no-wrap ">
-      <a
-        href="#"
-        class="md:hidden flex flex-col relative justify-center w-8 h-8"
-        @click.prevent="sliderLeft = true"
-      >
-        <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
-        <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
-        <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
-      </a>
-      <nuxt-link
-        :to="{ name : 'index'}"
-        class="logo flex justify-center flex-grow md:block"
-      >
-        <div
-          class="block bg-cover bg-center bg-contain bg-no-repeat h-12 lg:h-16 lg:w-56 w-48"
-          :style="`background-image:url(${logoUrl})`"
-        />
-      </nuxt-link>
-      <a
-        href="#"
-        class="lg:hidden hidden md:flex md:ml-auto flex-col relative justify-center w-8 h-8"
-        @click.prevent="mobileNavOpen =!mobileNavOpen"
-      >
-        <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
-        <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
-        <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
-      </a>
+      <ul class="flex items-center w-full">
+        <li>
+          <a
+            href="#"
+            class="md:hidden flex flex-col relative justify-center w-8 h-8"
+            @click.prevent="sliderLeft = true"
+          >
+            <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
+            <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
+            <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
+          </a>
+        </li>
+        <li class="flex-grow">
+          <nuxt-link
+            :to="{ name : 'index'}"
+            class="logo flex justify-center flex-grow md:block"
+          >
+            <div
+              class="block bg-cover bg-center bg-contain bg-no-repeat h-12 lg:h-16 lg:w-56 w-48"
+              :style="`background-image:url(${logoUrl})`"
+            />
+          </nuxt-link>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="lg:hidden hidden md:flex md:ml-auto flex-col relative justify-center w-8 h-8"
+            @click.prevent="mobileNavOpen =!mobileNavOpen"
+          >
+            <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
+            <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
+            <span class="bg-text-secondary h-1 w-8 rounded mb-1" />
+          </a>
+        </li>
+        <li class="md:hidden">
+          <nuxt-link
+            v-if="$auth.loggedIn"
+            :to="{name:'account'}"
+            class="lg:flex justify-between items-center"
+          >
+            <div
+              :style="`background-image:url(${avatarUrl})`"
+              class="h-10 w-10 rounded-full bg-cover bg-center"
+            />
+          </nuxt-link>
+          <nuxt-link
+            v-else
+            :to="{name:'auth-signin'}"
+            class="text-text-secondary"
+          >
+            <IconLogin class="w-8 h-8" />
+          </nuxt-link>
+        </li>
+      </ul>
       <div
         class="laptop-nav w-full lg:flex hidden"
       >
@@ -222,6 +249,18 @@
             >
               <IconTag class="mr-2 stroke-current" />Tags
             </nuxt-link>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li v-if="$auth.loggedIn">
+            <a
+              href="#"
+              class=""
+              @click.prevent="signOut"
+            >
+              {{ $t('Sign out') }}
+            </a>
           </li>
         </ul>
       </div>

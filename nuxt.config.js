@@ -22,6 +22,8 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'mobile-web-app-capable', content: 'true' },
+      { name: 'apple-mobile-web-app-capable', content: 'true' },
       {
         hid: 'description',
         name: 'description',

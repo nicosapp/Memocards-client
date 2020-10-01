@@ -1,12 +1,12 @@
 <template>
-  <div class="container mt-16">
+  <div class="mx-4 md:container mt-16">
     <div class="flex flex-col items-center">
       <h1 class="text-3xl text-text-secondary font-medium mb-10">
         Hello.
       </h1>
       <form
         action="#"
-        class="bg-bg-light p-8 rounded w-full mb-6 md:w-6/12 lg:w-4/12"
+        class="bg-bg-light p-5 md:p-8 rounded w-full mb-6 md:w-6/12 lg:w-4/12"
         @submit.prevent="submit"
       >
         <NizInputText

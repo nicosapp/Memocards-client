@@ -69,7 +69,7 @@
       </div>
     </div>
     <div
-      class="lg:hidden fixed left-0 bg-gray-400  rounded-r-lg flex items-center shadow-lg justify-center h-10 w-8"
+      class="hidden fixed lg:hidden left-0 bg-gray-400  rounded-r-lg md:flex items-center shadow-lg justify-center h-10 w-8"
       style="top:50%"
       :class="{'hidden':panelOpen}"
       @click.prevent="panelOpen = !panelOpen"
