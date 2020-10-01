@@ -1,51 +1,43 @@
 <template>
-  <div
-    class="border border-gray-400 py-2 px-3 rounded-lg mb-1 shadow-xs bg-gray-200
-  hover:bg-gray-300"
+  <Draggable
+    tag="ul"
+    :list="categories"
+    class="dragArea"
+    :animation="300"
+    ghost-class="ghost"
+    handle=".handle"
+    :group="{ name: 'g1' }"
   >
-    <div
-      class="flex items-center"
-      :class="{'mb-2':category.children.length}"
-    >
-      <IconMenu
-        class="stroke-current text-gray-500 stroke-2 mr-2  cursor-pointer"
-      />
-      <div
-        class="font-medium text-gray-700 flex-grow cursor-pointer"
-        @click.stop.prevent="_click"
-      >
-        {{ category.name }}
-      </div>
-      <div
-        class="bg-gray-500 rounded-full h-6 w-6 flex items-center justify-center ml-2 cursor-pointer"
-        @click.stop.prevent="_remove"
-      >
-        <IconTimes class="fill-current text-gray-200 h-4 h-4" />
-      </div>
-    </div>
-    <CategorySortable
-      v-for="cat in category.children"
-      :key="cat.id"
-      :category="cat"
-      :depth="depth + 1"
+    <CategorySortableItem
+      v-for="category in categories"
+      :key="category.id"
+      :category="category"
       :click="click"
       :remove="remove"
-    />
-  </div>
+    >
+      <CategorySortable
+        :categories="category.children"
+        :depth="depth + 1"
+        :click="click"
+        :remove="remove"
+      />
+    </CategorySortableItem>
+  </Draggable>
 </template>
 
 <script>
-import CategorySortable from '@/components/category/CategorySortable'
+// import CategorySortable from '@/components/category/CategorySortable'
+import Draggable from 'vuedraggable'
 
 export default {
   name: 'CategorySortable',
   components: {
-    CategorySortable
+    Draggable
   },
   props: {
-    category: {
+    categories: {
       required: true,
-      type: Object
+      type: Array
     },
     depth: {
       required: false,
@@ -62,19 +54,23 @@ export default {
       type: Function,
       default: null
     }
+
+  },
+  data () {
+    return {
+      edit: false
+    }
   },
   computed: {
     indent () {
       return this.depth * 50
     }
-  },
-  methods: {
-    _remove (e) {
-      this.remove(this.category)
-    },
-    _click (e) {
-      this.click(this.category)
-    }
   }
 }
 </script>
+
+<style scoped>
+.dragArea {
+  min-height: 10px;
+}
+</style>

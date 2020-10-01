@@ -7,66 +7,39 @@
         Edit your cateogries
       </div>
     </PageTitle>
-    <div class="flex lg:flex-no-wrap flex-wrap">
-      <div class="mx-4 w-full lg:w-5/12 pb-10 lg:pb-0">
-        <NizTab
-          ref="tabs"
-          :tabs="['create','update']"
-        >
-          <template slot="tab-head-create">
-            <IconPlusCircle class="stroke-current mr-3" /> Create
-          </template>
 
-          <template slot="tab-content-create">
-            <form @submit.prevent="add">
-              <NizInputText
-                v-model="create.name"
-                label="Category name"
-                placeholder="Name"
-                name="name"
-              />
-
-              <div class="flex justify-end mt-2">
-                <NizButtonSubmit
-                  value="Save"
-                  :loading="loading"
-                />
-              </div>
-            </form>
-          </template>
-          <template slot="tab-head-update">
-            <IconPencilAlt class="stroke-current mr-3" /> Update
-          </template>
-
-          <template slot="tab-content-update">
-            <form @submit.prevent="update">
-              <NizInputText
-                v-model="edit.name"
-                label="Category name"
-                placeholder="Name"
-                name="name"
-              />
-              <div class="flex justify-end mt-2">
-                <NizButtonSubmit
-                  value="Update"
-                  :loading="loading"
-                />
-              </div>
-            </form>
-          </template>
-        </NizTab>
-      </div>
-      <div class="w-full lg:w-7/12 lg:bg-transparent bg-white py-10 lg:py-0">
-        <div class="mx-3 rounded-lg bg-white px-4 py-3">
-          <CategorySortable
-            v-for="category in categories"
-            :key="category.id"
-            :category="category"
-            :remove-btn="true"
-            :remove="remove"
-            :click="click"
+    <div class="w-full lg:w-7/12 lg:bg-transparent bg-white py-10 lg:py-0 mx-auto">
+      <div class="mx-3 rounded-lg bg-white px-4 py-3">
+        <div class="flex justify-end mb-2">
+          <form
+            class="flex w-full items-center mr-2"
+            @submit.prevent="add"
+          >
+            <input
+              v-model="create.name"
+              type="text"
+              class="py-2 px-3 border outline-none border-gray-400 bg-white text-gray-700 rounded flex-grow mr-2"
+              placeholder="Category"
+              name="name"
+            >
+            <NizButtonSubmit
+              value="Add"
+              :loading="loading"
+            />
+          </form>
+          <NizButtonSubmit
+            value="Save"
+            type="button"
+            :loading="loading"
+            @click="updateCategories"
           />
         </div>
+        <CategorySortable
+          :categories="categories"
+          :remove="remove"
+          :click="clickCategory"
+          :remove-btn="true"
+        />
       </div>
     </div>
   </div>
@@ -74,6 +47,7 @@
 
 <script>
 // import { filter as _filter } from 'lodash'
+import { flattenCategories as _flattenCategories } from '@/plugins/utils'
 import { filterDeep as _filterDeep } from 'deepdash-es/standalone'
 export default {
   async asyncData ({ app }) {
@@ -103,7 +77,10 @@ export default {
         const response = await this.$axios.post('me/categories', this.create)
         this.categories.push(response.data.data)
         this.create = { name: '' }
-        this.$notifySuccess({ title: 'Category created!', text: 'Your category is now created!' })
+        this.$notifySuccess({
+          title: this.$t('Category created!'),
+          text: this.$t('Your category is now created!')
+        })
       } catch (e) {
         this.$notifyError({ title: 'Error', text: e.response.data.error })
       }
@@ -113,7 +90,10 @@ export default {
       if (this.edit.id != null) {
         try {
           await this.$axios.$patch(`me/categories/${this.edit.id}`, this.edit)
-          this.$notifySuccess({ title: 'Category updated!', text: 'Your category is now updated!' })
+          this.$notifySuccess({
+            title: this.$t('Category updated!'),
+            text: this.$t('Your category is now updated!')
+          })
         } catch (e) {
           this.$notifyError({ title: 'Error', text: e.response.data.error })
         }
@@ -121,7 +101,7 @@ export default {
     },
 
     async remove (category) {
-      if (!window.confirm('Are you sure you want to delete this category?')) {
+      if (!window.confirm(this.$t('Are you sure you want to delete this category?'))) {
         return
       }
       try {
@@ -129,12 +109,25 @@ export default {
         this.categories = _filterDeep(this.categories, c => c.id !== category.id, {
           childrenPath: 'children'
         })
-        this.$notifySuccess({ title: 'Category deleted!', text: 'Your category is now deleted!' })
+        this.$notifySuccess({ title: this.$t('Category deleted!'), text: this.$t('Your category is now deleted!') })
       } catch (e) {
         this.$notifyError({ title: 'Error', text: e.response.data.error })
       }
     },
-    click (category) {
+    async updateCategories () {
+      try {
+        const flatCategories = _flattenCategories(this.categories, 'children')
+        await this.$axios.$patch('me/categoriesBulk', { categories: flatCategories })
+        this.$notifySuccess({
+          title: this.$t('Categories sorted!'),
+          text: this.$t('Your categories are now sorted!')
+        })
+      } catch (e) {
+        this.$notifyError({ title: 'Error', text: e.response.data.error })
+      }
+    },
+
+    clickCategory (category) {
       this.edit = category
       this.$refs.tabs.selectedIndex = 1
     }

@@ -47,62 +47,22 @@
         <div class="flex flex-wrap">
           <div class="dashboard-box">
             <div class="box-container">
-              <h2>
-                Last created
-              </h2>
-              <ul>
-                <li
-                  v-for="index in new Array(5)"
-                  :key="index"
-                >
-                  <a href="#">Random</a>
-                </li>
-              </ul>
+              <BoxLastCreated />
             </div>
           </div>
           <div class="dashboard-box">
             <div class="box-container">
-              <h2>
-                Most viewed
-              </h2>
-              <ul>
-                <li
-                  v-for="index in new Array(5)"
-                  :key="index"
-                >
-                  <a href="#">Random</a>
-                </li>
-              </ul>
+              <BoxMostViewed />
             </div>
           </div>
           <div class="dashboard-box">
             <div class="box-container">
-              <h2>
-                Statistics
-              </h2>
-              <ul>
-                <li
-                  v-for="index in new Array(5)"
-                  :key="index"
-                >
-                  <a href="#">Random</a>
-                </li>
-              </ul>
+              <BoxStatistics />
             </div>
           </div>
           <div class="dashboard-box">
             <div class="box-container">
-              <h2>
-                Favorites
-              </h2>
-              <ul>
-                <li
-                  v-for="index in new Array(5)"
-                  :key="index"
-                >
-                  <a href="#">Random</a>
-                </li>
-              </ul>
+              <BoxFavorites />
             </div>
           </div>
         </div>
@@ -117,7 +77,7 @@
       <IconDotsVertical class="text-gray-700 stroke-2 h-5 w-4" />
     </div>
     <div
-      class="fixed bottom-0 right-0 m-4 bg-blue-500 rounded-full flex items-center justify-center h-16 w-16"
+      class="fixed bottom-0 right-0 m-4 bg-blue-500 hover:bg-blue-600 rounded-full cursor-pointer flex items-center justify-center h-16 w-16"
       @click.prevent="createPost"
     >
       <IconPlus class="text-blue-300 stroke-2 h-8 w-8" />
@@ -129,9 +89,6 @@
 import breakpoints from '@/plugins/breakpoints'
 
 export default {
-  components: {
-
-  },
   async asyncData ({ app }) {
 
   },
@@ -191,9 +148,6 @@ export default {
   @apply w-full p-3;
   .box-container{
     @apply bg-bg-primary rounded-lg px-4 py-2;
-    h2{
-      @apply font-medium text-2xl text-text;
-    }
   }
 }
 .slide-enter-active{

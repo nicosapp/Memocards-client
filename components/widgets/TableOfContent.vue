@@ -31,7 +31,8 @@
 export default {
   props: {
     postContent: {
-      required: true,
+      required: false,
+      default: '',
       type: String
     }
   }

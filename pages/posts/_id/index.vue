@@ -39,7 +39,16 @@
             </template>
           </div>
         </div>
-        <div>
+        <div class="flex justify-end items-center">
+          <div
+            class="mr-2 cursor-pointer"
+            @click.prevent="favorite"
+          >
+            <IconStar
+              class="stroke-current h-8 w-8 text-gray-500"
+              :class="{'fill-current':post.is_favorite}"
+            />
+          </div>
           <nuxt-link
             :to="{
               name:'posts-id-edit',
@@ -51,7 +60,6 @@
           >
             <IconPencilAlt class="mr-2 stroke-current" />Edit
           </nuxt-link>
-          </dvi>
         </div>
       </div>
     </PageTitle>
@@ -110,6 +118,14 @@ export default {
   computed: {
     showSideNav () {
       return ['lg', 'xl'].includes(this.breakpoints.is)
+    }
+  },
+  methods: {
+    async favorite () {
+      this.post.is_favorite = !this.post.is_favorite
+      await this.$axios.$patch(`me/posts/${this.post.uuid}`, {
+        is_favorite: this.post.is_favorite
+      })
     }
   },
   head () {

@@ -1,10 +1,10 @@
 export function posts (number) {
-  return new Array(number).fill({}).map((o, index) => ({ uuid: `post-${index}` }))
+  return new Array(number).fill({}).map((o, index) => ({ uuid: `post-${index}`, skeleton: true }))
 }
 
 export function chips (number, prefixId) {
   prefixId = prefixId || 'chip-'
-  return new Array(number).fill({}).map((o, index) => ({ id: prefixId + index }))
+  return new Array(number).fill({}).map((o, index) => ({ id: prefixId + index, skeleton: true }))
 }
 
 export function randomString (min, max) {

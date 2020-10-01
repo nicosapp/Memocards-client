@@ -46,13 +46,42 @@
         </div>
       </transition>
     </div>
+    <!-- SLIDER LEFT  -->
+    <transition name="slide-left">
+      <div
+        v-show="panelLeftOpen"
+        class="fixed lg-w-5/12 md:w-8/12 z-50 w-full left-0 top-0 bottom-0 bg-gray-200 border-gray-400 md:border-r-2"
+      >
+        <div class="w-full h-full">
+          <MediaManager>
+            <template slot="icon-right">
+              <div
+                class="flex justify-end cursor-pointer"
+                @click.prevent="panelLeftOpen = !panelLeftOpen"
+              >
+                <IconArrowNarrowLeft class="text-gray-600 stroke-2 h-5 w-5" />
+              </div>
+            </template>
+          </MediaManager>
+        </div>
+      </div>
+    </transition>
+    <div
+      class="fixed z-50 left-0 bg-gray-400 cursor-pointer rounded-r-lg flex items-center shadow-lg justify-center h-10 w-8"
+      style="top:50%"
+      :class="{'hidden':panelLeftOpen}"
+      @click.prevent="panelLeftOpen = !panelLeftOpen"
+    >
+      <IconPhotograph class="text-gray-700 stroke-2 h-5 w-5" />
+    </div>
+    <!-- SLIDER RIGHT -->
     <transition name="slide">
       <div
         v-show="panelOpen || showSideNav"
         class="lg:w-4/12 xl:w-3/12 w-full fixed lg:static top-0 bottom-0 right-0 bg-gray-200 lg:bg-transparent"
       >
         <div
-          class="m-4 lg:hidden"
+          class="m-4 lg:hidden cursor-pointer"
           @click.prevent="panelOpen = !panelOpen"
         >
           <IconArrowNarrowRight class="text-gray-600 stroke-2 h-5 w-5" />
@@ -66,7 +95,7 @@
       </div>
     </transition>
     <div
-      class="lg:hidden fixed z-50 right-0 bg-gray-400  rounded-l-lg flex items-center shadow-lg justify-center h-10 w-8"
+      class="lg:hidden fixed z-50 right-0 bg-gray-400 cursor-pointer rounded-l-lg flex items-center shadow-lg justify-center h-10 w-8"
       style="top:50%"
       :class="{'hidden':panelOpen}"
       @click.prevent="panelOpen = !panelOpen"
@@ -78,7 +107,7 @@
 
 <script>
 
-import { throttle as _throttle } from 'lodash'
+import { debounce as _debounce } from 'lodash'
 import moment from 'moment'
 import breakpoints from '@/plugins/breakpoints'
 
@@ -96,7 +125,8 @@ export default {
       post: null,
       lastSaved: null,
       breakpoints,
-      panelOpen: false
+      panelOpen: false,
+      panelLeftOpen: false
     }
   },
 
@@ -111,23 +141,23 @@ export default {
 
   watch: {
     'post.post_title': {
-      handler: _throttle(async function (title) {
+      handler: _debounce(async function (title) {
         await this.$axios.$patch(`me/posts/${this.post.uuid}`, {
           post_title: title
         })
 
         this.touchLastSaved()
-      }, 500, false, true)
+      }, 500)
     },
 
     'post.post_content': {
-      handler: _throttle(async function (content) {
+      handler: _debounce(async function (content) {
         await this.$axios.$patch(`me/posts/${this.post.uuid}`, {
           post_content: content
         })
 
         this.touchLastSaved()
-      }, 500, false, true)
+      }, 500)
     }
   },
 
@@ -152,5 +182,11 @@ export default {
 }
 .slide-leave-active{
   animation: slideOutRight 250ms linear;
+}
+.slide-left-enter-active{
+  animation: slideInLeft 250ms linear;
+}
+.slide-left-leave-active{
+  animation: slideOutLeft 250ms linear;
 }
 </style>

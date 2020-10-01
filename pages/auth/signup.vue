@@ -26,13 +26,13 @@
             </slot>
           </NizInputText>
 
-          <!-- USERNAME -->
+          <!-- NAME -->
           <NizInputText
-            v-model="form.username"
-            :label="$t('Username')"
-            :error="validation.username"
-            :placeholder="$t('Username')"
-            name="username"
+            v-model="form.name"
+            :label="$t('Name')"
+            :error="validation.name"
+            :placeholder="$t('Name')"
+            name="name"
             class="w-full md:ml-4"
           >
             <slot slot="before">
@@ -116,7 +116,7 @@ export default {
         email: '',
         name: '',
         firstname: '',
-        username: '',
+        lastname: '',
         password: '',
         password_confirmation: ''
       },
@@ -130,7 +130,7 @@ export default {
   computed: {
     submitDisabled () {
       return this.form.email.length === 0 ||
-      this.form.username.length === 0 ||
+      this.form.name.length === 0 ||
       this.form.password.length === 0 ||
       this.form.password_confirmation.length === 0 ||
       this.passwordValid === false ||
@@ -146,7 +146,6 @@ export default {
       }
       try {
         this.loading = true
-        this.form.name = this.form.username
         await this.$axios.$post('auth/signup', this.form)
 
         // await this.$auth.loginWith('local', {

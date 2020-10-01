@@ -2,7 +2,7 @@
   <div>
     <div class="flex flex-col items-center bg-white pt-10">
       <h1 class="text-3xl text-gray-700 text-center font-medium mb-10">
-        Hello. {{ $auth.user.firstname }} {{ $auth.user.name }}
+        Hello. {{ $auth.user.name }}
       </h1>
       <div class="flex justify-content items-center mb-6">
         <NizAvatar
@@ -36,11 +36,11 @@
           </NizInputText>
 
           <NizInputText
-            v-model="form.username"
-            :label="$t('Username')"
-            :error="validation.username"
-            :placeholder="$t('Username')"
-            name="username"
+            v-model="form.name"
+            :label="$t('Name')"
+            :error="validation.name"
+            :placeholder="$t('Name')"
+            name="name"
             class="w-full md:ml-4"
           >
             <slot slot="before">
@@ -60,11 +60,11 @@
           />
 
           <NizInputText
-            v-model="form.name"
+            v-model="form.lastname"
             :label="$t('Last name')"
-            :error="validation.name"
+            :error="validation.lastname"
             :placeholder="$t('Last name')"
-            name="name"
+            name="lastname"
             class="w-full md:ml-4"
           />
         </div>
@@ -120,7 +120,7 @@ export default {
       form: {
         email: this.$auth.user.email,
         name: this.$auth.user.name,
-        username: this.$auth.user.username,
+        lastname: this.$auth.user.lastname,
         firstname: this.$auth.user.firstname,
         password: '',
         password_confirmation: ''
@@ -138,8 +138,8 @@ export default {
       return this.$auth.user.avatar ? this.$auth.user.avatar.url : null
     },
     submitDisabled () {
-      return this.emailValid === false ||
-        (this.form.password.length > 0 && this.passwordValid === false)
+      return (this.form.password.length > 0 && this.passwordValid === false)
+      // || this.emailValid === false
     }
   },
 
@@ -212,7 +212,7 @@ export default {
 
   head () {
     return {
-      title: this.$options.filters.capitalize(this.$auth.user.username)
+      title: this.$options.filters.capitalize(this.$auth.user.name)
     }
   }
 }

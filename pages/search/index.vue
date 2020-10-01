@@ -100,7 +100,7 @@ export default {
     search: _debounce(function () {
       this.current_page = 1
       this.loadPosts({ reset: true })
-    }),
+    }, 500),
 
     _loading (step) {
       this.loading = step
@@ -118,6 +118,7 @@ export default {
 
       this._loading(false)
     },
+
     handleScolledToBottomOfPosts (isVisible) {
       if (!isVisible) { return }
       if (this.current_page === this.last_page) { return }

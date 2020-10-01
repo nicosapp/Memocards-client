@@ -96,7 +96,7 @@ export default {
       return this.mimetypes.map(type => type.split('/')[1]).join(', ')
     },
     readableMaxSize () {
-      return Math.round(this.maxSize / 1000000).toString() + 'M'
+      return Math.round(this.maxSize / 1000000).toString() + 'Mo'
     }
   },
   methods: {
@@ -107,13 +107,9 @@ export default {
       const file = files[0]
       if (file.size > this.maxSize) {
         this.$refs.fileupload.value = null
-        this.$notify({
-          group: 'app',
-          type: 'warn',
+        this.$notifyWarn({
           title: 'File size',
-          text: `The file size too large. The maximum is ${this.readableMaxSize}!`,
-          duration: -1
-          // duration: 1500
+          text: `The file size too large. The maximum is ${this.readableMaxSize}!`
         })
       } else if (this.mimetypes.includes(file.type)) {
         this.file = file

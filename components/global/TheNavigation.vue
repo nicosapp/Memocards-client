@@ -23,24 +23,26 @@
         class="laptop-nav w-full lg:flex hidden"
       >
         <ul class="menu lg:h-24 lg:flex items-center w-full lg:w-auto">
-          <li>
-            <nuxt-link
-              :to="{name:'browse'}"
-            >
-              {{ $t('Browse') }}
-            </nuxt-link>
-          </li>
-          <li>
-            <nuxt-link
-              :to="{name:'search'}"
-            >
-              <IconSearch
-                class="stroke-current inline-block mr-1 h-5 w-5 text-text-secondary"
-                style="stroke-width: 3;"
-              />
-              {{ $t('Search') }}
-            </nuxt-link>
-          </li>
+          <template v-if="$auth.loggedIn">
+            <li>
+              <nuxt-link
+                :to="{name:'browse'}"
+              >
+                {{ $t('Browse') }}
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link
+                :to="{name:'search'}"
+              >
+                <IconSearch
+                  class="stroke-current inline-block mr-1 h-5 w-5 text-text-secondary"
+                  style="stroke-width: 3;"
+                />
+                {{ $t('Search') }}
+              </nuxt-link>
+            </li>
+          </template>
         </ul>
         <ul class="menu lg:h-24 lg:flex items-center ml-auto text-right  w-full lg:w-auto">
           <li class="">
@@ -66,7 +68,7 @@
                   :style="`background-image:url(${avatarUrl})`"
                   class="h-10 w-10 mr-4 rounded-full bg-cover bg-center"
                 />
-                {{ $auth.user.username | capitalize }}
+                {{ $auth.user.name | capitalize }}
               </nuxt-link>
             </li>
             <li>
@@ -105,21 +107,21 @@
           class="mobile-nav lg:hidden w-full mt-4 overflow-hidden"
         >
           <ul>
-            <li>
-              <nuxt-link
-                :to="{name:'browse'}"
-              >
-                {{ $t('Browse') }}
-              </nuxt-link>
-            </li>
-            <li>
-              <nuxt-link
-                :to="{name:'search'}"
-              >
-                {{ $t('Search') }}
-              </nuxt-link>
-            </li>
             <template v-if="$auth.loggedIn">
+              <li>
+                <nuxt-link
+                  :to="{name:'browse'}"
+                >
+                  {{ $t('Browse') }}
+                </nuxt-link>
+              </li>
+              <li>
+                <nuxt-link
+                  :to="{name:'search'}"
+                >
+                  {{ $t('Search') }}
+                </nuxt-link>
+              </li>
               <li>
                 <nuxt-link
                   :to="{name:'dashboard'}"
@@ -133,7 +135,7 @@
                   :to="{name:'account'}"
                   class="lg:flex justify-between items-center"
                 >
-                  {{ $auth.user.username | capitalize }}
+                  {{ $auth.user.name | capitalize }}
                 </nuxt-link>
               </li>
               <li>
@@ -186,7 +188,7 @@ export default {
         ? this.$auth.user.avatar.thumbnail_url : 'http://www.gravatar.com/avatar/?d=mp'
     },
     logoUrl () {
-      return require('~/assets/logo-default.png')
+      return require('~/assets/memocards.tech.svg')
     }
   },
   methods: {

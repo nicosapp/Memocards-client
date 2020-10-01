@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Notifications from 'vue-notification'
 
+import Clipboard from 'v-clipboard'
+
 Vue.use(Notifications)
 
 export default ({ app }, inject) => {
@@ -30,4 +32,14 @@ export default ({ app }, inject) => {
     }
     Vue.notify({ ...params, ...custom })
   })
+  inject('notifyInfo', (params) => {
+    const custom = {
+      group: 'app',
+      type: 'info',
+      duration: -1
+    }
+    Vue.notify({ ...params, ...custom })
+  })
 }
+
+Vue.use(Clipboard)

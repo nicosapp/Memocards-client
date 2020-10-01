@@ -2,7 +2,7 @@
   <div class="">
     <TheNavigation />
     <TheAlert />
-    <NotificationTopCenter />
+    <NotificationCustomTopCenter />
     <Nuxt />
     <TheFooter />
   </div>

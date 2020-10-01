@@ -1,9 +1,13 @@
 <template>
-  <notifications class="app-info" group="app" position="top center" />
+  <notifications class="notification-custom" group="other" position="top center" />
 </template>
 
-<style scoped>
-.app-info{
-    @apply mt-10
+<style scoped lang="scss">
+.notification-custom{
+    @apply mt-10;
+
+    .error{
+      @apply bg-red-300;
+    }
 }
 </style>
