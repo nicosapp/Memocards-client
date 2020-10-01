@@ -10,7 +10,7 @@
         <input
           v-model="searchText"
           type="text"
-          class="w-full block outline-none text-xl text-gray-700 font-medium px-4"
+          class="w-full block outline-none text-xl text-gray-700 bg-transparent font-medium px-4"
           placehoder="Search Post"
           @input.prevent="search"
         >

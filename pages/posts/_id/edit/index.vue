@@ -112,7 +112,9 @@ import moment from 'moment'
 import breakpoints from '@/plugins/breakpoints'
 
 export default {
-
+  layout (context) {
+    if (window.innerWidth < 768) { return 'editor' } else { return 'default' }
+  },
   async asyncData ({ app, params }) {
     const post = await app.$axios.$get(`me/posts/${params.id}`)
 

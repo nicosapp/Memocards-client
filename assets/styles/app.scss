@@ -1,25 +1,57 @@
-@import "./palettes.scss";
+@import './palettes.scss';
 
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-body{
-    @apply bg-bg;
+body {
+  @apply bg-bg;
 }
 
-h1, h2, h3, h4, h5, h6{
-    @apply font-header;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-header;
+  a {
+    @apply text-gray-700;
+  }
 }
-a{
-    @apply text-btn-hover;
+a {
+  @apply text-btn-hover;
 }
-p{
-    @apply text-text-primary mb-6 leading-relaxed;
+
+.container {
+  @apply w-10/12 mx-auto;
 }
-.container{
-    @apply w-10/12 mx-auto;
+.niz-transition-default {
+  @apply transition-all duration-200 ease-linear;
 }
-.niz-transition-default{
-    @apply transition-all duration-200 ease-linear;
+
+.page-content {
+  @apply break-words text-sm;
+  p {
+    @apply mb-2 leading-tight text-text-primary;
+  }
+  h1 {
+    @apply text-3xl font-bold my-3;
+  }
+  h2 {
+    @apply text-2xl font-bold my-3;
+  }
+  h3 {
+    @apply text-xl font-bold my-2;
+  }
+  h4 {
+    @apply text-lg font-bold my-2;
+  }
+  h4 {
+    @apply text-base font-bold my-2;
+  }
+}
+
+.toc-container ol {
+  @apply ml-2 list-decimal;
 }

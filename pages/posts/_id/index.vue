@@ -58,19 +58,22 @@
             }"
             class="block flex items-center rounded-lg bg-blue-500 text-white hover:bg-blue-600 niz-transition-default py-2 px-4"
           >
-            <IconPencilAlt class="mr-2 stroke-current" />Edit
+            <IconPencilAlt class="mr-2 h-6 w-6 stroke-2 text-color-white" />Edit
           </nuxt-link>
         </div>
       </div>
     </PageTitle>
     <div class="mx-3 lg:mx-8 xl:mx-16 flex">
       <div class="lg:w-8/12 xl:w-9/12 w-full min-h-screen bg-bg-light text-text-primary p-4 rounded-lg">
-        <div v-html="post.post_content" />
+        <div
+          class="page-content"
+          v-html="post.post_content"
+        />
       </div>
       <transition name="slide">
         <div
           v-show="panelOpen || showSideNav"
-          class="lg:w-4/12 xl:3/12 lg:mx-5 px-3 w-full fixed lg:static top-0 bottom-0 right-0 bg-bg lg:bg-transparent"
+          class="lg:w-4/12 xl:3/12 lg:ml-5 px-3 w-full fixed lg:static top-0 bottom-0 right-0 bg-bg lg:bg-transparent"
         >
           <div
             class="m-4 lg:hidden"
@@ -79,7 +82,8 @@
             <IconArrowNarrowRight class="text-gray-600 stroke-2 h-5 w-5" />
           </div>
           <TableOfContent
-            :post-content="post.post_content"
+            :post="post"
+            @tocCreated="tocCreated"
           />
         </div>
       </transition>
@@ -126,6 +130,9 @@ export default {
       await this.$axios.$patch(`me/posts/${this.post.uuid}`, {
         is_favorite: this.post.is_favorite
       })
+    },
+    tocCreated (postContent) {
+      this.post.post_content = postContent
     }
   },
   head () {
@@ -136,7 +143,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
 .slide-enter-active{
   animation: slideInRight 250ms linear;
 }

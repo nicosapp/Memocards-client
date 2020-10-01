@@ -63,7 +63,7 @@ export default {
     require('tinymce/plugins/code')
 
     const oxide = this.themeMode === 'light' ? 'oxide' : 'oxide-dark'
-    const contentCss = this.themeMode === 'light' ? 'default' : 'dark'
+    const contentCss = this.themeMode === 'light' ? 'memocards' : 'memocards-dark'
     require(`tinymce/skins/ui/${oxide}/skin.min.css`)
     require(`tinymce/skins/ui/${oxide}/content.min.css`)
     // const contentCss = require('~/assets/styles/tinyeditor.scss')
@@ -79,7 +79,7 @@ export default {
       selector: '#' + this.randomId,
       height: 500,
       skin: false,
-      content_css: `/skins/content/${contentCss}/content.min.css`,
+      content_css: `/skins/content/${contentCss}/content.css`,
       menubar: true,
       plugins: [
         'advlist autolink lists link image charmap print preview anchor',

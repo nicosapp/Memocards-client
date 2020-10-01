@@ -76,12 +76,6 @@
     >
       <IconDotsVertical class="text-gray-700 stroke-2 h-5 w-4" />
     </div>
-    <div
-      class="fixed bottom-0 right-0 m-4 bg-blue-500 hover:bg-blue-600 rounded-full cursor-pointer flex items-center justify-center h-16 w-16"
-      @click.prevent="createPost"
-    >
-      <IconPlus class="text-blue-300 stroke-2 h-8 w-8" />
-    </div>
   </div>
 </template>
 
