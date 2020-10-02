@@ -1,7 +1,7 @@
 <template>
   <div class="sticky top-0 bg-bg md:static py-2 lg:py-0 flex flex-wrap lg:flex-no-wrap items-center border-border border-b-3">
     <div class="container flex items-center flex-wrap lg:flex-no-wrap ">
-      <ul class="flex items-center w-full">
+      <ul class="flex items-center w-full md:w-auto">
         <li>
           <a
             href="#"
